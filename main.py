@@ -13,3 +13,7 @@ for p in range(l,r+1):
     m = int(input()) # no of workers
     for i in range(n):
         W.append(input_workers())
+
+    # Output
+    Asg=GT_algo(T,W)
+    print(Asg)

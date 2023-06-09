@@ -4,7 +4,7 @@ class worker:
     K=[]
     task_set=[]
     cost=0
-    def __init__(self,l,r,v,S,T) -> None:
+    def __init__(self,l:float,r:float,v:float,S:list,T:list) -> None:
         self.loc=l
         self.r=r
         self.cost=v
@@ -16,7 +16,7 @@ class task:
     K_req=[]
     expiry=0
     budget=0
-    def __init__(self,l,S,b,d) -> None: 
+    def __init__(self,l:float,S:list,b:float,d) -> None: 
         self.loc=l
         self.K_req=S
         self.budget=b
