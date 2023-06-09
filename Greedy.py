@@ -32,15 +32,21 @@ def greedy(T:list,W:list):
         l=[]
         st=0
         mx=NEG_INF
-        
-        # store csat and keep adding dif_csat to it (remove divide in dif_cast). the pass that value to dif_sat  
+        cop,cop1=0,0
 
         for i in w_set:
+            cop+=dif_cop_sum(l,i)
+            if len(l)>0:
+                cop1=cop/len(l)
+            else:
+                cop1=0
             # pick workers greedily (only when satisfaction increases)
-            if (st+dif_sat(t,l,i,1))>mx:
-                st+=dif_sat(t,l,i,1)
+            if (st+dif_sat(t,l,i,cop1))>mx:
+                st+=dif_sat(t,l,i,cop1)
                 mx=st
                 l.append(i)
+            else:
+                cop-=dif_cop_sum(l,i)
             
         tw[t]=[l,False]
     
@@ -50,14 +56,22 @@ def greedy(T:list,W:list):
         for i in range(n):
             for j in range(i):
                 Wc=set_itr(tw[T[i]][0],tw[T[j]][0])
-
-                # compute csat for tw[T[i][0]] & tw[T[j][0]] and use dif_csat for each wc later for actual csat difference  
+                ci,cj=csat(tw[T[i][0]]),csat(tw[T[i][0]])
+                
                 if len(Wc)>0:
                     flg=False
                     tw[T[i][1]]=tw[T[j][1]]=True
                     for wc in Wc:
-                        di=-dif_sat(T[i],tw[T[i][0]],wc,1)
-                        dj=-dif_sat(T[j],tw[T[j][0]],wc,1)
+                        if len(tw[T[i][0]])>2:
+                            tmp=(ci-dif_cop_sum(tw[T[i][0]],wc))/(len(tw[T[i][0]])-2)
+                        else:
+                            tmp=0
+                        di=-dif_sat(T[i],tw[T[i][0]],wc,tmp)
+                        if len(tw[T[j][0]])>2:
+                            tmp=(cj-dif_cop_sum(tw[T[j][0]],wc))/(len(tw[T[j][0]])-2)
+                        else:
+                            tmp=0
+                        dj=-dif_sat(T[j],tw[T[j][0]],wc,tmp)
                         if di<dj:
                             tw[T[i][0]]=rm_el(tw[T[i][0]],wc)
                         else:

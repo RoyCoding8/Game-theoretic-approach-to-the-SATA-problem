@@ -62,13 +62,16 @@ def dif_psat(t:task,w:worker):
     dist=abs(w.loc-t.loc)
     return -w.cost*dist
 
-def dif_csat(W:list[worker],w:worker):
+
+# If c_sat is undivided, it will be just sum of all cooperation scores of all workers
+# This function returns its difference on addition of a new worker
+def dif_cop_sum(W:list[worker],w:worker):
     sum=0
     for i in W:
         sum+=csore(i,w)
-    return sum/len(W)
+    return sum
 
-def dif_sat(t:task,W:list[worker],w:worker,v:float):
+def dif_sat(t:task,W:list[worker],w:worker,dcsat:float):
     a=0.5
     p_max,c_max=1,1     # To be decided later
-    return a*dif_psat(t,w)/p_max+(1-a)*v/c_max
+    return a*dif_psat(t,w)/p_max+(1-a)*dcsat/c_max
