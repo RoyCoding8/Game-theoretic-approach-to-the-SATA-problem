@@ -6,13 +6,17 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
     # get initial assignment and unassigned workers
     Asg,u=greedy(T,W)
     
-    tw=dict[task,list[worker]]()
+    tw=dict[int,list[worker]]()
     asg=dict[worker,task]()
+
+    # initialize the tw dictionary
+    for i in Asg:
+        tw[i[1].ind]=[]
 
     # initialize the strategies
     for i in Asg:
         asg[i[0]]=i[1]
-        tw[i[1]].append(i[0])
+        tw[i[1].ind].append(i[0])
 
     while True:
         flg=True
@@ -20,13 +24,13 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
         for uw in u:
             mx=0
             flg1=False
-            x=worker(0,0,0,[],[])
+            x=worker(0,0,0,0,[],[])
             for w in asg:
                 if check_worker(asg[w],uw) and (uw not in to_swap):
 
                     # Compute difference in cooperation satisfaction on replacement
-                    if len(tw[asg[w]])>1:
-                        dcsat=(cop_sum(tw[asg[w]],uw)-cop_sum(tw[asg[w]],uw)-csore(uw,w))/(len(tw[asg[w]])-1)
+                    if len(tw[asg[w].ind])>1:
+                        dcsat=(cop_sum(tw[asg[w].ind],uw)-cop_sum(tw[asg[w].ind],uw)-csore(uw,w))/(len(tw[asg[w].ind])-1)
                     else:
                         dcsat=0
 

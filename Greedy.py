@@ -49,7 +49,7 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
             else:
                 cop-=cop_sum(l,i)
             
-        tw[t]=[l,False]
+        tw[t.ind]=[l,False]
     
     while True:
         n=len(T)
@@ -57,29 +57,29 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
         Wc=list[worker]()
         for i in range(n):
             for j in range(i):
-                Wc=set_itr(tw[T[i]][0],tw[T[j]][0])
-                ci,cj=csat(tw[T[i]][0]),csat(tw[T[i]][0])
+                Wc=set_itr(tw[T[i].ind][0],tw[T[j].ind][0])
+                ci,cj=csat(tw[T[i].ind][0]),csat(tw[T[i].ind][0])
                 
                 if len(Wc)>0:
                     flg=False
-                    tw[T[i]][1]=tw[T[j]][1]=True
+                    tw[T[i].ind][1]=tw[T[j].ind][1]=True
                     for wc in Wc:
-                        if len(tw[T[i]][0])>2:
-                            cop=(ci-cop_sum(tw[T[i]][0],wc))/(len(tw[T[i]][0])-2)
+                        if len(tw[T[i].ind][0])>2:
+                            cop=(ci-cop_sum(tw[T[i].ind][0],wc))/(len(tw[T[i].ind][0])-2)
                         else:
                             cop=0
                         tmp=dif_psat(T[i],wc)
                         di=-dif_sat(tmp,cop)
-                        if len(tw[T[j]][0])>2:
-                            cop=(cj-cop_sum(tw[T[j]][0],wc))/(len(tw[T[j]][0])-2)
+                        if len(tw[T[j].ind][0])>2:
+                            cop=(cj-cop_sum(tw[T[j].ind][0],wc))/(len(tw[T[j].ind][0])-2)
                         else:
                             cop=0
                         tmp=dif_psat(T[j],wc)
                         dj=-dif_sat(tmp,cop)
                         if di<dj:
-                            tw[T[i]][0]=rm_el(tw[T[i]][0],wc)
+                            tw[T[i].ind][0]=rm_el(tw[T[i].ind][0],wc)
                         else:
-                            tw[T[i]][0]=rm_el(tw[T[i]][0],wc)
+                            tw[T[i].ind][0]=rm_el(tw[T[i].ind][0],wc)
         if flg:
             break
         l=[]
@@ -87,7 +87,8 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
         for key in tw:
             if tw[key][1]:
                 if(check_CWS(key,tw[key][0])):
-                    T_set.remove(key)
+                    if key in T_set:
+                        T_set.remove(key)
                     for i in tw[key][0]:
                         Asg.append((i,key))
                         W_set.remove(i)
@@ -103,8 +104,8 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
     while W_set and T_set:
         mx=NEG_INF
         cop=0
-        x=task(0,[],0,0)
-        y=worker(0,0,0,[],[])
+        x=task(0,0,[],0,0)
+        y=worker(0,0,0,0,[],[])
         for t in T_set:
             for w in W_set:
                 cop=sat(t,[w])  # O(1)
