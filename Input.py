@@ -11,7 +11,7 @@ def input_tasks(i:int):
     # take skill set as input
     S=[]
     for i in range(5):
-        S.append(rd.randint(1,5))
+        S.append(rd.randint(1,100))
     obj=task(i,l,S,b,d)
     return obj
 
@@ -29,6 +29,6 @@ def input_workers(i:int):
     # take task_set as input
     T=[]
     for i in range(5):
-        T.append(rd.randint(1,100))
+        T.append(rd.randint(1,5))
     obj=worker(i,l,r,v,S,T)
     return obj

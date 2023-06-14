@@ -1,7 +1,6 @@
 from Greedy import *
-from collections import deque
 
-def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
+def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
     
     # get initial assignment and unassigned workers
     Asg,u=greedy(T,W)
@@ -20,7 +19,7 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
 
     while True:
         flg=True
-        to_swap=[]
+        to_swap=set()
         for uw in u:
             mx=0
             flg1=False
@@ -30,7 +29,7 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
 
                     # Compute difference in cooperation satisfaction on replacement
                     if len(tw[asg[w].ind])>1:
-                        dcsat=(cop_sum(tw[asg[w].ind],uw)-cop_sum(tw[asg[w].ind],uw)-csore(uw,w))/(len(tw[asg[w].ind])-1)
+                        dcsat=(cop_sum(tw[asg[w].ind],uw)-cop_sum(tw[asg[w].ind],w)-csore(uw,w))/(len(tw[asg[w].ind])-1)
                     else:
                         dcsat=0
 
@@ -45,7 +44,7 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
                         mx=ut
                         x=w
             if flg1:
-                to_swap.append((uw,x))
+                to_swap.add((uw,x))
         
         for it in to_swap:
 
@@ -60,6 +59,6 @@ def GT_algo(T:list[task],W:list[worker]) -> list[tuple[worker,task]]:
     
     Asg.clear()
     for key in asg:
-        Asg.append((key,asg[key]))
+        Asg.add((key,asg[key]))
 
     return Asg

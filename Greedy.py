@@ -13,12 +13,12 @@ from req_functions import *
 
 """
 
-def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[worker]]:
-    Asg=[]
+def greedy(T:list[task],W:list[worker]) -> tuple[set[tuple[worker,task]],set[worker]]:
+    Asg=set()
     tw=dict()
 
     # keep track of unassigned workers 
-    unassigned=set()   
+    unassigned=set()
 
     # Using this sets later when O(1) deletion is required
     W_set,T_set=set(W),set(T)
@@ -90,7 +90,7 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
                     if key in T_set:
                         T_set.remove(key)
                     for i in tw[key][0]:
-                        Asg.append((i,key))
+                        Asg.add((i,key))
                         W_set.remove(i)
                 else:
                     for i in tw[key][0]:
@@ -115,7 +115,7 @@ def greedy(T:list[task],W:list[worker]) -> tuple[list[tuple[worker,task]],set[wo
         
         if(check_CWS(x,[y])):
             T_set.remove(x)
-            Asg.append((y,x))
+            Asg.add((y,x))
         else:
             unassigned.add(y)
         W_set.remove(y)
