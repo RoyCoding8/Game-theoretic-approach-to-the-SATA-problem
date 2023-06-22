@@ -1,0 +1,111 @@
+skill_id,skill_name
+1,Web Development
+2,Mobile App Development
+3,Database Management
+4,Graphic Design
+5,Content Writing
+6,Search Engine Optimization (SEO)
+7,Data Analysis
+8,UI/UX Design
+9,Project Management
+10,Cybersecurity
+11,Website building
+12,App building
+13,Database design
+14,Graphic design
+15,Content writing
+16,SEO optimization
+17,Mobile app development
+18,E-commerce integration
+19,Network configuration
+20,System testing
+21,Data analysis
+22,UI/UX design
+23,Front-end development
+24,Back-end development
+25,Software debugging
+26,Server administration
+27,Cybersecurity audit
+28,Project management
+29,Quality assurance
+30,Cloud infrastructure setup
+31,AI algorithm development
+32,Machine learning model training
+33,Data visualization
+34,Game development
+35,Social media marketing
+36,User research
+37,IT consulting
+38,DevOps implementation
+39,Database optimization
+40,Technical writing
+41,Blockchain integration
+42,IoT device programming
+43,Virtual reality app development
+44,Augmented reality app development
+45,Web scraping
+46,Natural language processing
+47,Data mining
+48,Cryptocurrency development
+49,Robotic process automation
+50,Big data analytics
+51,Chatbot development
+52,System integration
+53,IT infrastructure planning
+54,Business intelligence reporting
+55,Software prototyping
+56,Firmware development
+57,Network troubleshooting
+58,API integration
+59,Cross-platform app development
+60,Data migration
+61,Web performance optimization
+62,Cloud migration
+63,Web security testing
+64,Computer vision algorithm development
+65,Predictive analytics
+66,Data warehousing
+67,IT support and maintenance
+68,Data backup and recovery
+69,System upgrade and migration
+70,Data center management
+71,Audio processing
+72,Video editing
+73,Game testing
+74,Embedded systems programming
+75,Geospatial data analysis
+76,Voice recognition technology
+77,Biometric authentication integration
+78,Neural network training
+79,Web accessibility optimization
+80,Data encryption
+81,Network monitoring
+82,UI/UX prototyping
+83,Data governance
+84,Version control system setup
+85,IT asset management
+86,Cloud security
+87,Data privacy compliance
+88,Serverless architecture design
+89,Data anomaly detection
+90,Distributed computing
+91,Data classification
+92,Data center virtualization
+93,IT disaster recovery planning
+94,Cross-browser compatibility testing
+95,Robotics programming
+96,Wearable technology app development
+97,Energy efficiency optimization
+98,Business process automation
+99,Data cleansing
+100,Natural language generation
+101,IT vendor management
+102,Cybersecurity awareness training
+103,Data streaming and processing
+104,Data extraction
+105,IT budget planning
+106,Virtual machine management
+107,Scalable cloud solutions
+108,Server load balancing
+109,Continuous integration and deployment
+110,IT risk assessment

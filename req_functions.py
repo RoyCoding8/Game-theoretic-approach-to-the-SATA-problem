@@ -1,4 +1,5 @@
 from classes import *
+from Distance_cal import *
 
 def set_itr(l1:list,l2:list) -> list:   # Compute intersection
     s=set()
@@ -32,7 +33,7 @@ def csat(W:list[worker]) -> float:
 def psat(t:task,W:list[worker]) -> float:
     sum=0
     for w in W:
-        dist=abs(w.loc-t.loc)
+        dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
         sum+=dist*(w.cost)
     return t.budget-sum
 
@@ -41,10 +42,10 @@ def sat(t:task,W:list[worker]) -> float:
     p_max,c_max=1,1     # To be decided later
     return a*psat(t,W)/p_max+(1-a)*csat(W)/c_max
 
-def check_worker(t:task,w:worker) -> bool:
+def check_worker(t:task,w:worker):
     if len(set_itr(t.K_req,w.K))==0:
        return False
-    dist=abs(w.loc-t.loc)
+    dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
     if(dist>w.r):
         return False
     return True
@@ -56,12 +57,14 @@ def check_CWS(t:task,W:list[worker]):
     return True
 
 def rm_el(a,w) -> list:
-    s=set(a)
-    s.remove(w)
-    return list(s)
+    l=[]
+    for i in a:
+        if i!=w:
+            l.append(i)
+    return l
 
 def dif_psat(t:task,w:worker) -> float:
-    dist=abs(w.loc-t.loc)
+    dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
     return -w.cost*dist
 
 

@@ -11,7 +11,7 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
     # initialize the tw dictionary
     for i in Asg:
         tw[i[1].ind]=[]
-
+    
     # initialize the strategies
     for i in Asg:
         asg[i[0]]=i[1]
@@ -19,11 +19,11 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
 
     while True:
         flg=True
-        to_swap=set()
+        to_swap=set[tuple[worker,worker]]()
         for uw in u:
             mx=0
             flg1=False
-            x=worker(0,0,0,0,[],[])
+            x=worker(0,0,0,0,0,[],[])
             for w in asg:
                 if check_worker(asg[w],uw) and (uw not in to_swap):
 

@@ -1,34 +1,68 @@
 from classes import *
-import random as rd
+import pandas as pd
 
-# generate random input for input_tasks and input_workers functions
-def input_tasks(i:int):
-    # take location, budget and exp time as input
-    l=rd.uniform(-50,50)
-    b=rd.uniform(5,30)
-    d=rd.randint(80,100)
+# Each group is a task, and each user is a worker
 
-    # take skill set as input
-    S=[]
-    for i in range(5):
-        S.append(rd.randint(1,100))
-    obj=task(i,l,S,b,d)
-    return obj
+# Tag_id and tag name mapping (skills)
+df = pd.read_csv(r'.\Data\Meetup_tag\tag_text.csv')
+tag_text = dict(zip(df['id'],df['text']))
 
-def input_workers(i:int):
-    # take location, range and travelling cost as input
-    l=rd.uniform(-50,50)
-    r=rd.uniform(0,3)
-    v=rd.uniform(10,20)
+# User and interested tag_ids (skills of user)
+df = pd.read_csv(r'.\Data\Meetup_tag\user_tag.csv')
+user_tag = dict()
+for _,row in df.iterrows():
+    key=row['user']
+    value=row['tag_id']
+    if key not in user_tag:
+        user_tag[key]=[]
+    user_tag[key].append(value)
 
-    # take skill set as input
-    S=[]
-    for i in range(5):
-        S.append(rd.randint(1,100))
+# Group and tag_ids (skills required in a group)
+df = pd.read_csv(r'.\Data\Meetup_tag\group_tag.csv')
+group_tag = dict()
+for _,row in df.iterrows():
+    key=row['group']
+    value=row['tag_id']
+    if key not in group_tag:
+        group_tag[key]=[]
+    group_tag[key].append(value)
 
-    # take task_set as input
-    T=[]
-    for i in range(5):
-        T.append(rd.randint(1,5))
-    obj=worker(i,l,r,v,S,T)
-    return obj
+# User and group participated mapping (tasks done by worker online before)
+df = pd.read_csv(r'.\Data\Meetup_network\user_group.csv')
+user_group = dict()
+for _,row in df.iterrows():
+    key=row['user']
+    value=row['group']
+    if key not in user_group:
+        user_group[key]=[]
+    user_group[key].append(value)
+
+# User and event participated mapping and each event is in turn mapped to a group (tasks done by worker offline)
+df = pd.read_csv(r'.\Data\Meetup_network\user_event.csv')
+user_event = dict()
+for _,row in df.iterrows():
+    key=row['user']
+    value=row['event']
+    if key not in user_event:
+        user_event[key]=[]
+    user_event[key].append(value)
+
+df = pd.read_csv(r'.\Data\Meetup_network\event_group.csv')
+event_group = dict(zip(df['event'],df['host_group']))
+
+# Location
+df = pd.read_csv(r'.\Data\Meetup_geo\user_lon_lat.csv')
+user_location=dict[int,list[float]]()
+for _,row in df.iterrows():
+    key=row['user']
+    values=[row['lon'],row['lat']]
+    user_location[key]=values
+
+df = pd.read_csv(r'.\Data\Meetup_geo\event_lon_lat.csv')
+event_location=dict[int,list[float]]()
+for _,row in df.iterrows():
+    key=row['event']
+    values=[row['lon'],row['lat']]
+    event_location[key]=values
+
+print(event_location)
