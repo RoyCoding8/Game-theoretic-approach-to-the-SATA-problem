@@ -1,10 +1,11 @@
 from classes import *
 import pandas as pd
 
-n, m = 100, 100
-s = 110
+# Collect generated input from csv files
+
 # Skill_id and Skill_name mapping
 df =pd.read_csv(r'.\Generated_Data\Id_and_name\skills_id_name.csv')
+s = len(df)         # No of possible skills
 skills_tag = ['']*(s+1)
 for _,row in df.iterrows():
     key=row['skill_id']
@@ -13,6 +14,7 @@ for _,row in df.iterrows():
 
 # Worker_id and Worker_name mapping
 df =pd.read_csv(r'.\Generated_Data\Id_and_name\worker_id_name.csv')
+m = len(df)         # No of workers
 worker_tag = ['']*(m+1)
 for _,row in df.iterrows():
     key=row['worker_id']
@@ -21,6 +23,7 @@ for _,row in df.iterrows():
 
 # Task_id and Task_name mapping
 df =pd.read_csv(r'.\Generated_Data\Id_and_name\task_id_name.csv')
+n = len(df)         # No of tasks
 task_tag = ['']*(n+1)
 for _,row in df.iterrows():
     key=row['task_id']

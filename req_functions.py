@@ -43,7 +43,7 @@ def sat(t:task,W:list[worker]) -> float:
     return a*psat(t,W)/p_max+(1-a)*csat(W)/c_max
 
 def check_worker(t:task,w:worker):
-    if len(set_itr(t.K_req,w.K))==0:
+    if not set_itr(t.K_req,w.K):
        return False
     dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
     if(dist>w.r):

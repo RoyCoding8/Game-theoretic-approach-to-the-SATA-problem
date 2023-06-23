@@ -30,6 +30,8 @@ def greedy(T:list[task],W:list[worker]) -> tuple[set[tuple[worker,task]],set[wor
     W_set,T_set=set(W),set(T)
 
     for t in T:
+
+        # Create the CWS for each task (w_set)
         w_set=list[worker]()
         for w in W:
             if(check_worker(t,w)):  # O(1)
@@ -55,11 +57,13 @@ def greedy(T:list[task],W:list[worker]) -> tuple[set[tuple[worker,task]],set[wor
                 l.append(i)
             else:
                 cop-=cop_sum(l,i)
-            
+        
+        # Add the CWS with the highest satisfaction to the hashmap corresponding to the task id
         tw[t.ind]=l
+
+        # Intitialise mark
         mark[t.ind]=False 
 
-    
     
     while True:
         n=len(T)
@@ -67,58 +71,88 @@ def greedy(T:list[task],W:list[worker]) -> tuple[set[tuple[worker,task]],set[wor
         Wc=list[worker]()
         for i in range(n):
             for j in range(i):
-                # print(tw.keys())
-                ci,cj=0,0
+
+                # Check if the tasks T[i] and T[j] are not yet processed
                 if T[i].ind in tw and T[j].ind in tw:
+
+                    # Find the conflict workers between the two tasks
                     Wc=set_itr(tw[T[i].ind],tw[T[j].ind])
+
+                    # Precomputation for the following loop
                     ci,cj=csat(tw[T[i].ind]),csat(tw[T[i].ind])
-                
-                if len(Wc)>0:
-                    flg=False
-                    mark[T[i].ind]=mark[T[j].ind]=True
-                    for wc in Wc:
-                        if len(tw[T[i].ind])>2:
-                            cop=(ci-cop_sum(tw[T[i].ind],wc))/(len(tw[T[i].ind])-2)
-                        else:
-                            cop=0
-                        tmp=dif_psat(T[i],wc)
-                        di=-dif_sat(tmp,cop)
-                        if len(tw[T[j].ind])>2:
-                            cop=(cj-cop_sum(tw[T[j].ind],wc))/(len(tw[T[j].ind])-2)
-                        else:
-                            cop=0
-                        tmp=dif_psat(T[j],wc)
-                        dj=-dif_sat(tmp,cop)
-                        if di<dj:
-                            tw[T[i].ind]=rm_el(tw[T[i].ind],wc)
-                        else:
-                            tw[T[j].ind]=rm_el(tw[T[j].ind],wc)
+
+                    # If there are conflict workers
+                    if Wc:
+
+                        # Even if one conflict worker is present, the while loop will not break
+                        flg=False
+
+                        # Mark the tasks as ones having conflict workers 
+                        mark[T[i].ind]=mark[T[j].ind]=True
+
+                        for wc in Wc:
+
+                            # Use precomputation to compute difference in csat with reduced time complexity
+                            if len(tw[T[i].ind])>2:
+                                cop=(ci-cop_sum(tw[T[i].ind],wc))/(len(tw[T[i].ind])-2)
+                            else:
+                                cop=0
+                            tmp=dif_psat(T[i],wc)
+
+                            # Compute the satisfaction increment for T[i]
+                            di=-dif_sat(tmp,cop)
+                            if len(tw[T[j].ind])>2:
+                                cop=(cj-cop_sum(tw[T[j].ind],wc))/(len(tw[T[j].ind])-2)
+                            else:
+                                cop=0
+                            tmp=dif_psat(T[j],wc)
+
+                            # Compute the satisfaction increment for T[j]
+                            dj=-dif_sat(tmp,cop)
+
+                            # Remove the conflict workers from the worker set of the task with lower satisfaction increment
+                            if di<dj:
+                                tw[T[i].ind]=rm_el(tw[T[i].ind],wc)
+                            else:
+                                tw[T[j].ind]=rm_el(tw[T[j].ind],wc)
         if flg:
             break
+
+        # Store the tasks that have been processed for conflict workers in l
         l=list[int]()
         
         for key in tw:
+
+            # If the task has conflict workers
             if mark[key]:
                 if(check_CWS(T[key-1],tw[key])):
+                    # If the task can be completed by the worker, assign the task to the worker
                     if key in T_set:
                         T_set.remove(key)
                     for i in tw[key]:
                         Asg.add((i,T[key-1]))
                         W_set.remove(i)
                 else:
+                    # If the task cannot be completed by the worker, keep the worker unassigned
                     for i in tw[key]:
                         unassigned.add(i)
                         W_set.remove(i)
                 l.append(key)
 
+        # Remove the processed tasks from the hashmap
         for i in l:
             tw.pop(i)
+            mark.pop(i)
 
+    # If the worker and task set is not empty yet
     while W_set and T_set:
+        
+        # Assign singletons to the remaining tasks
         mx=NEG_INF
         cop=0
         x=task(0,0,0,[],0,0)
         y=worker(0,0,0,0,0,[],[])
+
         for t in T_set:
             for w in W_set:
                 cop=sat(t,[w])  # O(1)
@@ -127,10 +161,14 @@ def greedy(T:list[task],W:list[worker]) -> tuple[set[tuple[worker,task]],set[wor
                     x,y=t,w
         
         if(check_CWS(x,[y])):
+            # If the worker can complete the task, assign the task to the worker
             T_set.remove(x)
             Asg.add((y,x))
         else:
+            # Otherwise keep the worker unassigned
             unassigned.add(y)
         W_set.remove(y)
+
+        # If W_set and T_set are still non-empty, repeat
     
     return Asg,unassigned

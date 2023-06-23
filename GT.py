@@ -12,7 +12,7 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
     for i in Asg:
         tw[i[1].ind]=[]
     
-    # initialize the strategies
+    # initialize the strategies of the workers and create a task-worker mapping
     for i in Asg:
         asg[i[0]]=i[1]
         tw[i[1].ind].append(i[0])
@@ -21,6 +21,8 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
         flg=True
         to_swap=set[tuple[worker,worker]]()
         for uw in u:
+
+            # mx is the maximum utility. If no change is made, utility is zero.
             mx=0
             flg1=False
             x=worker(0,0,0,0,0,[],[])
@@ -37,15 +39,23 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
                     dpsat=dif_psat(asg[w],uw)-dif_psat(asg[w],w)
 
                     # utility computation
-                    ut=dif_sat(dpsat,dcsat)     
+                    ut=dif_sat(dpsat,dcsat) 
+
+                    # pick the worker with the highest utility (which should be greater than zero)    
                     if ut>mx:
+                        # If atleast one swap is made, don't break the while loop
                         flg=False
+
+                        # If a swap is made for that particular, set flg1 to True to add it to the to_swap set
                         flg1=True
                         mx=ut
                         x=w
+            
+            # If a swap has been made, add the pair to be swapped to the to_swap set
             if flg1:
                 to_swap.add((uw,x))
         
+        # Swap the workers in the to_swap set
         for it in to_swap:
 
             # it[0] is currently unassigned worker and it[1] is currently assigned worker
@@ -53,11 +63,14 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
             asg.pop(it[1])
             u.remove(it[0])
             u.add(it[1])
-            
+        
+        # If no swap is made, flg is True, so break the while loop
         if flg:
             break 
     
     Asg.clear()
+
+    # Add the final assignment to the Asg set
     for key in asg:
         Asg.add((key,asg[key]))
 
