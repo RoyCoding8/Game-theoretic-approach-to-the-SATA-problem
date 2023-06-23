@@ -39,7 +39,7 @@ def psat(t:task,W:list[worker]) -> float:
 
 def sat(t:task,W:list[worker]) -> float:
     a = 0.5
-    p_max,c_max=1,1     # To be decided later
+    p_max,c_max=1,100    # To be decided later
     return a*psat(t,W)/p_max+(1-a)*csat(W)/c_max
 
 def check_worker(t:task,w:worker):
@@ -78,5 +78,5 @@ def cop_sum(W:list[worker],w:worker) -> float:
 
 def dif_sat(dpsat:float,dcsat:float) -> float:
     a=0.5
-    p_max,c_max=1,1     # To be decided later
+    p_max,c_max=1,100    # To be decided later
     return a*dpsat/p_max+(1-a)*dcsat/c_max
