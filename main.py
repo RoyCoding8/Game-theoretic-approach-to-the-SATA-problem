@@ -1,6 +1,8 @@
 from GT import *
 from Gen_input import *
 from Output import *
+from Calculate_Sat import *
+import matplotlib.pyplot as plt
 
 def input_tasks(n,T:list[task]):
     for i in range(n):
@@ -27,7 +29,7 @@ input_workers(m,W)
 # Running the program
 
 print('--------------------------------------------------')
-print('Greedy algorithm assignment:\n')
+print('CAG algorithm assignment:\n')
 Asg=greedy(T,W)[0]
 
 # Print the assignment
@@ -41,6 +43,25 @@ Asg=GT_algo(T,W)
 Output(Asg)
 print('--------------------------------------------------')
 
+# --------------------------------- Original (Using 100 tasks and 100 workers) -----------------------------------
+
+# 100 tasks and 100 workers
+T,W=[],[]
+from Input_t0 import *
+from Input_w0 import *
+input_tasks(n,T)
+input_workers(m,W)
+
+print('---------------------Original---------------------')
+Asg=greedy(T,W)[0]
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
+
+Asg=GT_algo(T,W)
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
+print('--------------------------------------------------')
+
 # ------------------------Now using synthetic dataset to study the effect of no of tasks---------------------------
 
 # 300 tasks
@@ -52,10 +73,12 @@ input_workers(m,W)
 
 print('---------------------300 tasks---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
 
 # 400 tasks
@@ -67,10 +90,12 @@ input_workers(m,W)
 
 print('---------------------400 tasks---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
 
 # 500 tasks
@@ -82,10 +107,12 @@ input_workers(m,W)
 
 print('---------------------500 tasks---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
 
 # ------------------------Now using synthetic dataset to study the effect of no of workers----------------------------
@@ -98,10 +125,12 @@ input_workers(m,W)
 
 print('---------------------300 workers---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
 
 # 400 workers
@@ -113,10 +142,12 @@ input_workers(m,W)
 
 print('---------------------400 workers---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
 
 # 500 workers
@@ -128,8 +159,10 @@ input_workers(m,W)
 
 print('---------------------500 workers---------------------')
 Asg=greedy(T,W)[0]
-print('Greedy algorithm assignment:',len(Asg))
+print('No of assignments by CAG Algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 
 Asg=GT_algo(T,W)
-print('GT algorithm assignment:',len(Asg))
+print('No of assignments by GT algorithm:',len(Asg))
+print('Satisfaction score of the assignment:',Cal_Sat(Asg))
 print('--------------------------------------------------')
