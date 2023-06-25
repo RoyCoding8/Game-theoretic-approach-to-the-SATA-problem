@@ -30,12 +30,12 @@ print('--------------------------------------------------')
 
 # Original.py file has the generated input for 100 workers and 100 tasks.
 
-# Effect_of_tasks.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the number of tasks.
+# Effect_of_tasks.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of tasks.
 
-# Effect_of_workers.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the number of workers
+# Effect_of_workers.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of workers
 
-# Effect_of_cost.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the worker cost.
+# Effect_of_cost.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the worker cost.
 
-# Effect_of_budget.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the task budget
+# Effect_of_budget.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the task budget
 
-# Effect_of_ranges.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the range of the workers
+# Effect_of_ranges.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the range of the workers

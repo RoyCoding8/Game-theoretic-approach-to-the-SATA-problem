@@ -2,7 +2,6 @@ from GT import *
 from Gen_input import *
 from Output import *
 from Calculate_Sat import *
-import matplotlib.pyplot as plt
 
 def input_tasks(n,T,task_location,task_skills,budget):
     for i in range(1,n+1):
