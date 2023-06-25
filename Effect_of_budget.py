@@ -8,8 +8,8 @@ from Input_w0 import *
 # task budget = 200000
 T,W=[],[]
 task_budget = [200000]*(n+1)
-input_tasks(n,T)
-input_workers(m,W)
+input_tasks(n,T,task_location,task_skills,budget)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 assignments_budget_greedy,sat_budget_greedy = [],[]
 assignments_budget_gt,sat_budget_gt = [],[]
 
@@ -33,7 +33,7 @@ sat_budget_gt.append(s)
 print('---------------------Task budget = 300000---------------------')
 T=[]
 task_budget = [300000]*(n+1)
-input_tasks(n,T)
+input_tasks(n,T,task_location,task_skills,budget)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))
@@ -54,7 +54,7 @@ sat_budget_gt.append(s)
 print('---------------------Task budget = 400000---------------------')
 T=[]
 task_budget = [400000]*(n+1)
-input_tasks(n,T)
+input_tasks(n,T,task_location,task_skills,budget)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))
@@ -74,7 +74,7 @@ sat_budget_gt.append(s)
 print('---------------------Task budget = 500000---------------------')
 T=[]
 task_budget = [500000]*(n+1)
-input_tasks(n,T)
+input_tasks(n,T,task_location,task_skills,budget)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))

@@ -10,8 +10,8 @@ assignments_worker_greedy,assignments_worker_gt=[],[]
 sat_worker_greedy,sat_worker_gt=[],[]
 from Input_t0 import *
 from Input_w0 import *
-input_tasks(n,T)
-input_workers(m,W)
+input_tasks(n,T,task_location,task_skills,budget)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
 print('---------------------Original---------------------')
 Asg=greedy(T,W)[0]

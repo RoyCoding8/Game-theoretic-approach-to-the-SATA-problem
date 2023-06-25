@@ -12,8 +12,8 @@ assignments_cost_gt,sat_cost_gt = [],[]
 
 # worker cost = 5
 print('---------------------Worker cost = 5---------------------')
-input_tasks(n,T)
-input_workers(m,W)
+input_tasks(n,T,task_location,task_skills,budget)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))
@@ -33,7 +33,7 @@ sat_cost_gt.append(s)
 print('---------------------Worker cost = 7---------------------')
 W=[]
 worker_cost = [7]*(m+1)
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))
@@ -53,7 +53,7 @@ sat_cost_gt.append(s)
 print('---------------------Worker cost = 8---------------------')
 W=[]
 worker_cost = [8]*(m+1)
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))
@@ -73,7 +73,7 @@ sat_cost_gt.append(s)
 print('---------------------Worker cost = 10---------------------')
 W=[]
 worker_cost = [10]*(m+1)
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 Asg=greedy(T,W)[0]
 s = Cal_Sat(Asg)
 print('No of assignments by CAG Algorithm:',len(Asg))

@@ -6,15 +6,23 @@ import pandas as pd
 # Worker Location
 df = pd.read_csv(r'.\Effect_of_workers\500_workers\worker_location.csv')
 m=len(df)
-worker_location = [(0.0,0.0)]*(m+1)
+worker_location = [(0.0,0.0) for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
     value=(row['latitude'],row['longitude']) 
     worker_location[int(key)]=value
 
+# Range of each worker
+df = pd.read_csv(r'.\Effect_of_workers\500_workers\worker_range.csv')
+worker_range = [0.0 for _ in range(m+1)]
+for _,row in df.iterrows():
+    key=row['worker']
+    value=row['range']
+    worker_range[int(key)]=value
+
 # Worker Skills
 df = pd.read_csv(r'.\Effect_of_workers\500_workers\worker_skills.csv')
-worker_skills = [[]]*(m+1)
+worker_skills = [[] for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
     value=row['skill']
@@ -22,7 +30,7 @@ for _,row in df.iterrows():
 
 # Worker Cost
 df = pd.read_csv(r'.\Effect_of_workers\500_workers\worker_cost.csv')
-worker_cost = [0.0]*(m+1)
+worker_cost = [0.0 for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
     value=row['cost']
@@ -30,7 +38,7 @@ for _,row in df.iterrows():
 
 # Tasks that each worker has done before
 df = pd.read_csv(r'.\Effect_of_workers\500_workers\worker_task_history.csv')
-task_history = [[]]*(m+1)
+task_history = [[] for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
     value=row['task']

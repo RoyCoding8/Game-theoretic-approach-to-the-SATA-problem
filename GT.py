@@ -59,10 +59,11 @@ def GT_algo(T:list[task],W:list[worker]) -> set[tuple[worker,task]]:
         for it in to_swap:
 
             # it[0] is currently unassigned worker and it[1] is currently assigned worker
-            asg[it[0]]=asg[it[1]]
-            asg.pop(it[1])
-            u.remove(it[0])
-            u.add(it[1])
+            if it[1] in asg:
+                asg[it[0]]=asg[it[1]]
+                asg.pop(it[1])
+                u.remove(it[0])
+                u.add(it[1])
         
         # If no swap is made, flg is True, so break the while loop
         if flg:

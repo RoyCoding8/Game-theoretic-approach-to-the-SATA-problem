@@ -6,7 +6,7 @@ import pandas as pd
 # Budget for each task
 df = pd.read_csv(r'.\Effect_of_tasks\400_tasks\task_budget.csv')
 n=len(df)
-budget = [0.0]*(n+1)
+budget = [0.0 for _ in range(n+1)]
 for _,row in df.iterrows():
     key=row['task']
     value=row['budget']
@@ -14,7 +14,7 @@ for _,row in df.iterrows():
 
 # Task Location
 df = pd.read_csv(r'.\Effect_of_tasks\400_tasks\task_location.csv')
-task_location = [(0.0,0.0)]*(n+1)
+task_location = [(0.0,0.0) for _ in range(n+1)]
 for _,row in df.iterrows():
     key=row['task']
     value=(row['longitude'],row['latitude'])
@@ -22,7 +22,7 @@ for _,row in df.iterrows():
 
 # Required Skills for each task
 df = pd.read_csv(r'.\Effect_of_tasks\400_tasks\task_skills.csv')
-task_skills = [[]]*(n+1)
+task_skills = [[] for _ in range(n+1)]
 for _,row in df.iterrows():
     key=row['task']
     value=row['req_skill']

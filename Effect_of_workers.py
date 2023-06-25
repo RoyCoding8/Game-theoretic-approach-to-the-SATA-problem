@@ -5,8 +5,8 @@ from Original import *
 T,W=[],[]
 from Input_w1 import *
 from Input_t0 import *
-input_tasks(n,T)
-input_workers(m,W)
+input_tasks(n,T,task_location,task_skills,budget)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
 print('---------------------300 workers---------------------')
 Asg=greedy(T,W)[0]
@@ -25,11 +25,9 @@ assignments_worker_gt.append(len(Asg))
 sat_worker_gt.append(s)
 
 # 400 workers
-T,W=[],[]
+W=[]
 from Input_w2 import *
-from Input_t0 import *
-input_tasks(n,T)
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
 print('---------------------400 workers---------------------')
 Asg=greedy(T,W)[0]
@@ -48,11 +46,9 @@ assignments_worker_gt.append(len(Asg))
 sat_worker_gt.append(s)
 
 # 500 workers
-T,W=[],[]
+W=[]
 from Input_w3 import *
-from Input_t0 import *
-input_tasks(n,T)
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
 print('---------------------500 workers---------------------')
 Asg=greedy(T,W)[0]

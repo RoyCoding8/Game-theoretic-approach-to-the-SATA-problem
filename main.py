@@ -5,10 +5,10 @@ from Start import *
 T,W=[],[]
 
 # Create the task set using the input
-input_tasks(n,T)
+input_tasks(n,T,task_location,task_skills,budget)
 
 # Create the worker set using the input
-input_workers(m,W)
+input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
 # Running the program
 print('--------------------------------------------------')
@@ -37,3 +37,5 @@ print('--------------------------------------------------')
 # Effect_of_cost.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the worker cost.
 
 # Effect_of_budget.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the task budget
+
+# Effect_of_ranges.py file shows the behaviour of Assignment cost and Satisfaction score with respect to the range of the workers

@@ -66,6 +66,14 @@ for _,row in df.iterrows():
     value=(row['latitude'],row['longitude']) 
     worker_location[int(key)]=value
 
+# Range of each worker
+df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_range.csv')
+worker_range = [0.0]*(m+1)
+for _,row in df.iterrows():
+    key=row['worker']
+    value=row['range']
+    worker_range[int(key)]=value
+
 # Worker Skills
 df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_skills.csv')
 worker_skills = [[]]*(m+1)
