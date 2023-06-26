@@ -8,7 +8,7 @@ from Input_t0 import *
 from Input_w0 import *
 
 T,W=[],[]
-worker_cost = [5]*(m+1)
+worker_cost = [5 for _ in range(m+1)]
 assignments_cost_greedy,sat_cost_greedy,time_cost_greedy = [],[],[]
 assignments_cost_gt,sat_cost_gt,time_cost_gt = [],[],[]
 
@@ -42,7 +42,7 @@ time_cost_gt.append(end-start)
 # worker cost = 7
 print('---------------------Worker cost = 7---------------------')
 W=[]
-worker_cost = [7]*(m+1)
+worker_cost = [7 for _ in range(m+1)]
 input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 start=tm.time()
 Asg=greedy(T,W)[0]
@@ -70,7 +70,7 @@ time_cost_gt.append(end-start)
 # worker cost = 8
 print('---------------------Worker cost = 8---------------------')
 W=[]
-worker_cost = [8]*(m+1)
+worker_cost = [8 for _ in range(m+1)]
 input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 start=tm.time()
 Asg=greedy(T,W)[0]
@@ -96,7 +96,7 @@ time_cost_gt.append(end-start)
 # worker cost = 10
 print('---------------------Worker cost = 10---------------------')
 W=[]
-worker_cost = [10]*(m+1)
+worker_cost = [10 for _ in range(m+1)]
 input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 start=tm.time()
 Asg=greedy(T,W)[0]

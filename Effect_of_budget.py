@@ -9,7 +9,7 @@ from Input_w0 import *
 
 # task budget = 200000
 T,W=[],[]
-task_budget = [200000]*(n+1)
+task_budget = [200000 for _ in range(n+1)]
 input_tasks(n,T,task_location,task_skills,budget)
 input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 assignments_budget_greedy,sat_budget_greedy,time_budget_greedy = [],[],[]
@@ -42,7 +42,7 @@ time_budget_gt.append(end-start)
 # task budget = 300000
 print('---------------------Task budget = 300000---------------------')
 T=[]
-task_budget = [300000]*(n+1)
+task_budget = [300000 for _ in range(n+1)]
 input_tasks(n,T,task_location,task_skills,budget)
 start=tm.time()
 Asg=greedy(T,W)[0]
@@ -71,7 +71,7 @@ time_budget_gt.append(end-start)
 
 print('---------------------Task budget = 400000---------------------')
 T=[]
-task_budget = [400000]*(n+1)
+task_budget = [400000 for _ in range(n+1)]
 input_tasks(n,T,task_location,task_skills,budget)
 start=tm.time()
 Asg=greedy(T,W)[0]
@@ -99,7 +99,7 @@ time_budget_gt.append(end-start)
 # task budget = 500000
 print('---------------------Task budget = 500000---------------------')
 T=[]
-task_budget = [500000]*(n+1)
+task_budget = [500000 for _ in range(n+1)]
 input_tasks(n,T,task_location,task_skills,budget)
 start=tm.time()
 Asg=greedy(T,W)[0]
