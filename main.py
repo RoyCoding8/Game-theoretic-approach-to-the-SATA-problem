@@ -39,3 +39,5 @@ print('--------------------------------------------------')
 # Effect_of_budget.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the task budget
 
 # Effect_of_ranges.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the range of the workers
+
+# Effect_of_task_skills.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of task skills

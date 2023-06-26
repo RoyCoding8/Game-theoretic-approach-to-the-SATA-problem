@@ -1,8 +1,8 @@
 import random
 
-num_tasks = 500
-max_skills_per_task = 5
-num_skills = 10
+num_tasks = 100
+max_skills_per_task = random.randint(1, 6)
+num_skills = 6
 
 for task in range(1, num_tasks + 1):
     num_skills_required = random.randint(1, max_skills_per_task)
