@@ -2,38 +2,11 @@ from classes import *
 import pandas as pd
 from Construct_set import *
 
-# Collect generated input from csv files
-
-# Budget for each task
-df = pd.read_csv(r'.\Generated_Data\Task_mapping\task_budget.csv')
-n=len(df)
-budget = [0.0 for _ in range(n+1)]
-for _,row in df.iterrows():
-    key=row['task']
-    value=row['budget']
-    budget[int(key)]=value
-
-# Task Location
-df = pd.read_csv(r'.\Generated_Data\Task_mapping\task_location.csv')
-task_location = [(0.0,0.0) for _ in range(n+1)]
-for _,row in df.iterrows():
-    key=row['task']
-    value=(row['longitude'],row['latitude'])
-    task_location[int(key)]=value
-
-# Required Skills for each task
-df = pd.read_csv(r'.\Generated_Data\Task_mapping\task_skills.csv')
-task_skills = [[] for _ in range(n+1)]
-for _,row in df.iterrows():
-    key=row['task']
-    value=row['req_skill']
-    task_skills[key].append(value)
-
-# ----------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------
 
 # Worker Location
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_location.csv')
-m=len(df)
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_location.csv')
+m = 200
 worker_location = [(0.0,0.0) for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
@@ -41,7 +14,7 @@ for _,row in df.iterrows():
     worker_location[int(key)]=value
 
 # Range of each worker
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_range.csv')
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_range.csv')
 worker_range = [0.0 for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
@@ -49,7 +22,7 @@ for _,row in df.iterrows():
     worker_range[int(key)]=value
 
 # Worker Skills
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_skills.csv')
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_skills.csv')
 worker_skills = [[] for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
@@ -57,7 +30,7 @@ for _,row in df.iterrows():
     worker_skills[int(key)].append(value)
 
 # Worker Cost
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_cost.csv')
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_cost.csv')
 worker_cost = [0.0 for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
@@ -65,7 +38,7 @@ for _,row in df.iterrows():
     worker_cost[int(key)]=value
 
 # Tasks that each worker has done before
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_task_history.csv')
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_task_history.csv')
 task_history = [[] for _ in range(m+1)]
 for _,row in df.iterrows():
     key=row['worker']
@@ -73,7 +46,7 @@ for _,row in df.iterrows():
     task_history[int(key)].append(value)
 
 # Worker skills not known fully
-df = pd.read_csv(r'.\Generated_Data\Worker_mapping\worker_skills_incomplete.csv')
+df = pd.read_csv(r'.\Effect_of_workers\200_workers\worker_skills_incomplete.csv')
 s = 3        # No of workers with incomplete info about skills
 ws_incmp = [[] for _ in range(s+1)]
 
