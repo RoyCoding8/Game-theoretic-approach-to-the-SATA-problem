@@ -11,14 +11,10 @@ from Input_w0 import *
 input_tasks(n,T,task_location,task_skills,budget)
 input_workers(m,W,worker_location,worker_range,worker_cost,worker_skills,task_history)
 
-print('---------------------300 tasks---------------------')
 start=tm.time()
 Asg=greedy(T,W)[0]
 end=tm.time()
 s = Cal_Sat(Asg)
-print('No of assignments by CAG Algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by CAG Algorithm:',end-start,'seconds')
 assignments_task_greedy.append(len(Asg))
 sat_task_greedy.append(s)
 time_task_greedy.append(end-start)
@@ -27,10 +23,6 @@ start=tm.time()
 Asg=GT_algo(T,W)
 end=tm.time()
 s = Cal_Sat(Asg)
-print('\nNo of assignments by GT algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by GT algorithm:',end-start,'seconds')
-print('---------------------------------------------------')
 assignments_task_gt.append(len(Asg))
 sat_task_gt.append(s)
 time_task_gt.append(end-start)
@@ -41,14 +33,10 @@ from Input_t2 import *
 from Input_w0 import *
 input_tasks(n,T,task_location,task_skills,budget)
 
-print('---------------------400 tasks---------------------')
 start=tm.time()
 Asg=greedy(T,W)[0]
 end=tm.time()
 s = Cal_Sat(Asg)
-print('No of assignments by CAG Algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by CAG Algorithm:',end-start,'seconds')
 assignments_task_greedy.append(len(Asg))
 sat_task_greedy.append(s)
 time_task_greedy.append(end-start)
@@ -57,10 +45,6 @@ start=tm.time()
 Asg=GT_algo(T,W)
 end=tm.time()
 s = Cal_Sat(Asg)
-print('\nNo of assignments by GT algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by GT algorithm:',end-start,'seconds')
-print('---------------------------------------------------')
 assignments_task_gt.append(len(Asg))
 sat_task_gt.append(s)
 time_task_gt.append(end-start)
@@ -71,14 +55,10 @@ from Input_t3 import *
 from Input_w0 import *
 input_tasks(n,T,task_location,task_skills,budget)
 
-print('---------------------500 tasks---------------------')
 start=tm.time()
 Asg=greedy(T,W)[0]
 end=tm.time()
 s = Cal_Sat(Asg)
-print('No of assignments by CAG Algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by CAG Algorithm:',end-start,'seconds')
 assignments_task_greedy.append(len(Asg))
 sat_task_greedy.append(s)
 time_task_greedy.append(end-start)
@@ -87,13 +67,60 @@ start=tm.time()
 Asg=GT_algo(T,W)
 end=tm.time()
 s = Cal_Sat(Asg)
-print('\nNo of assignments by GT algorithm:',len(Asg))
-print('Satisfaction score of the assignment:',s)
-print('Time taken by GT algorithm:',end-start,'seconds')
-print('---------------------------------------------------')
 assignments_task_gt.append(len(Asg))
 sat_task_gt.append(s)
 time_task_gt.append(end-start)
+
+# ------------------------- Normalization of satisfaction score ------------------------------------
+
+mx = max(max(sat_task_greedy),max(sat_task_gt))
+mn = 0
+sat_task_greedy = [(i-mn)*100/(mx-mn) for i in sat_task_greedy]
+sat_task_gt = [(i-mn)*100/(mx-mn) for i in sat_task_gt]
+
+# --------------------------------- Printing the values --------------------------------------------
+
+print('----------------- 100 tasks ----------------')
+print('No of assignments by CAG algorithm:',assignments_task_greedy[0])
+print('Satisfaction score of the assignment:',sat_task_greedy[0])
+print('Time Taken by CAG Algoritm:',time_task_greedy[0],'seconds')
+
+print('\nNo of assignments by GT algorithm:',assignments_task_gt[0])
+print('Satisfaction score of the assignment:',sat_task_gt[0])
+print('Time Taken by GT Algoritm:',time_task_gt[0],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 300 tasks ----------------')
+print('No of assignments by CAG algorithm:',assignments_task_greedy[1])
+print('Satisfaction score of the assignment:',sat_task_greedy[1])
+print('Time Taken by CAG Algoritm:',time_task_greedy[1],'seconds')
+
+print('\nNo of assignments by GT algorithm:',assignments_task_gt[1])
+print('Satisfaction score of the assignment:',sat_task_gt[1])
+print('Time Taken by GT Algoritm:',time_task_gt[1],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 400 tasks ----------------')
+print('No of assignments by CAG algorithm:',assignments_task_greedy[2])
+print('Satisfaction score of the assignment:',sat_task_greedy[2])
+print('Time Taken by CAG Algoritm:',time_task_greedy[2],'seconds')
+
+print('\nNo of assignments by GT algorithm:',assignments_task_gt[2])
+print('Satisfaction score of the assignment:',sat_task_gt[2])
+print('Time Taken by GT Algoritm:',time_task_gt[2],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 500 tasks ----------------')
+print('No of assignments by CAG algorithm:',assignments_task_greedy[3])
+print('Satisfaction score of the assignment:',sat_task_greedy[3])
+print('Time Taken by CAG Algoritm:',time_task_greedy[3],'seconds')
+
+print('\nNo of assignments by GT algorithm:',assignments_task_gt[3])
+print('Satisfaction score of the assignment:',sat_task_gt[3])
+print('Time Taken by GT Algoritm:',time_task_gt[3],'seconds')
+print('----------------------------------------------')
+
+# --------------------------------- Plotting the values --------------------------------------------
 
 plt.plot([100,300,400,500],assignments_task_greedy,label='CAG')
 plt.plot([100,300,400,500],assignments_task_gt,label='GT')

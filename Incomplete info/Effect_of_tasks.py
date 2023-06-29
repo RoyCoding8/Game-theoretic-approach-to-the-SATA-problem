@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 #  -----------------------------------  Effect of no of tasks  --------------------------------------  
 
 # 150 tasks
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_t1 import *
 start = tm.time()
 T = []
@@ -25,21 +27,16 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 150 tasks ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
 
 # 200 tasks
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_t2 import *
 start = tm.time()
 T = []
@@ -61,21 +58,16 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 200 tasks ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
 
 # 250 tasks
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_t3 import *
 start = tm.time()
 T = []
@@ -97,19 +89,63 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 250 tasks ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
+
+# ------------------------- Normalization of satisfaction score ------------------------------------
+
+mx = max(max(sat_greedy),max(sat_gt))
+mn = 0
+sat_greedy = [(i-mn)*100/(mx-mn) for i in sat_greedy]
+sat_gt = [(i-mn)*100/(mx-mn) for i in sat_gt]
+
+# --------------------------------- Printing the values --------------------------------------------
+
+print('----------------- 100 tasks ----------------')
+print('Expected no of assignments by CAG algorithm:',assignments_greedy[0])
+print('Expected satisfaction score of the assignment:',sat_greedy[0])
+print('----------------------------------------------')
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[0])
+print('Expected satisfaction score of the assignment:',sat_gt[0])
+print('\nTime Taken:',time[0],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 150 tasks ----------------')
+print('Expected no of assignments by CAG algorithm:',assignments_greedy[1])
+print('Expected satisfaction score of the assignment:',sat_greedy[1])
+print('----------------------------------------------')
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[1])
+print('Expected satisfaction score of the assignment:',sat_gt[1])
+print('\nTime Taken:',time[1],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 200 tasks ----------------')
+print('Expected no of assignments by CAG algorithm:',assignments_greedy[2])
+print('Expected satisfaction score of the assignment:',sat_greedy[2])
+print('----------------------------------------------')
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[2])
+print('Expected satisfaction score of the assignment:',sat_gt[2])
+print('\nTime Taken:',time[2],'seconds')
+print('----------------------------------------------')
+
+print('----------------- 250 tasks ----------------')
+print('Expected no of assignments by CAG algorithm:',assignments_greedy[3])
+print('Expected satisfaction score of the assignment:',sat_greedy[3])
+print('----------------------------------------------')
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[3])
+print('Expected satisfaction score of the assignment:',sat_gt[3])
+print('\nTime Taken:',time[3],'seconds')
+print('----------------------------------------------')
+
+# --------------------------------- Plotting the values --------------------------------------------
 
 plt.plot([100,150,200,250],assignments_greedy,label='CAG')
 plt.plot([100,150,200,250],assignments_gt,label='GT')
@@ -123,6 +159,11 @@ plt.plot([100,150,200,250],sat_gt,label='GT')
 plt.xlabel('No of tasks')
 plt.ylabel('Expected satisfaction score')
 plt.legend()
+plt.show()
+
+plt.plot([100,150,200,250],time)
+plt.xlabel('No of tasks')
+plt.ylabel('Time taken')
 plt.show()
 
 # ----------------------------------------------------------------------------------------------------

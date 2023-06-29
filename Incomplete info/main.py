@@ -27,16 +27,9 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 100 workers ----------------')
-print('Expected no of assignments by Greedy algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)

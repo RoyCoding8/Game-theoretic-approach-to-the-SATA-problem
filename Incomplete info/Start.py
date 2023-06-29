@@ -1,6 +1,5 @@
 from GT import *
 from Gen_input import *
-from Output import *
 from Calculate_Sat import *
 import time as tm
 

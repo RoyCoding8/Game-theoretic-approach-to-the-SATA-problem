@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 #  ------------------------  Effect of no of workers with complete information  ------------------------  #
 
 # 150 workers, 3 have incomplete information
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_w1 import *
 start = tm.time()
 for i in range(len(all_subsets)):
@@ -23,21 +25,16 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 150 workers ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
 
 # 200 workers, 3 have incomplete information
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_w2 import *
 start = tm.time()
 for i in range(len(all_subsets)):
@@ -57,21 +54,16 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 200 workers ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
 
 # 250 workers, 3 have incomplete information
+asg_greedy,asg_gt=0,0
+sat_score_greedy,sat_score_gt=0,0
 from Input_w3 import *
 start = tm.time()
 for i in range(len(all_subsets)):
@@ -91,19 +83,59 @@ for i in range(len(all_subsets)):
     sat_score_gt+=s*probability
 end = tm.time()
 
-print('----------------- 250 workers ----------------')
-print('Expected no of assignments by CAG algorithm:',asg_greedy)
-print('Expected satisfaction score of the assignment:',sat_score_greedy)
 assignments_greedy.append(asg_greedy)
 sat_greedy.append(sat_score_greedy)
 
-print('\nExpected no of assignments by GT algorithm:',asg_gt)
-print('Expected satisfaction score of the assignment:',sat_score_gt)
-print('\nTime Taken:',end-start,'seconds')
-print('----------------------------------------------')
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
+
+#  -------------------------  Normalization of satisfaction score ----------------------------
+
+mx = max(max(sat_greedy),max(sat_gt))
+mn = 0
+sat_greedy = [(i-mn)*100/(mx-mn) for i in sat_greedy]
+sat_gt = [(i-mn)*100/(mx-mn) for i in sat_gt]
+
+#  -------------------------------------  Printing --------------------------------------------
+
+print('----------------- 100 workers ----------------')
+print('Expected no of assignments by Greedy algorithm:',assignments_greedy[0])
+print('Expected satisfaction score of the assignment:',sat_greedy[0])
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[0])
+print('Expected satisfaction score of the assignment:',sat_gt[0])
+print('\nTime taken:',time[0])
+print('-----------------------------------------------')
+
+print('----------------- 150 workers ----------------')
+print('Expected no of assignments by Greedy algorithm:',assignments_greedy[1])
+print('Expected satisfaction score of the assignment:',sat_greedy[1])
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[1])
+print('Expected satisfaction score of the assignment:',sat_gt[1])
+print('\nTime taken:',time[1])
+print('-----------------------------------------------')
+
+print('----------------- 200 workers ----------------')
+print('Expected no of assignments by Greedy algorithm:',assignments_greedy[2])
+print('Expected satisfaction score of the assignment:',sat_greedy[2])
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[2])
+print('Expected satisfaction score of the assignment:',sat_gt[2])
+print('\nTime taken:',time[2])
+print('-----------------------------------------------')
+
+print('----------------- 250 workers ----------------')
+print('Expected no of assignments by Greedy algorithm:',assignments_greedy[3])
+print('Expected satisfaction score of the assignment:',sat_greedy[3])
+
+print('\nExpected no of assignments by GT algorithm:',assignments_gt[3])
+print('Expected satisfaction score of the assignment:',sat_gt[3])
+print('\nTime taken:',time[3])
+print('-----------------------------------------------')
+
+#  ---------------------------------------------  Plotting  -------------------------------------------  
 
 plt.plot([100,150,200,250],assignments_greedy,label='Greedy')
 plt.plot([100,150,200,250],assignments_gt,label='GT')
@@ -123,7 +155,3 @@ plt.plot([100,150,200,250],time)
 plt.xlabel('No of workers')
 plt.ylabel('Time taken')
 plt.show()
-
-#  ------------------------  Effect of no of workers with incomplete information  --------------------------
-
-# 100 workers, 1 has incomplete information
