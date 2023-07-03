@@ -166,7 +166,7 @@ sat_gt = [(i-mn)*100/(mx-mn) for i in sat_gt]
 
 # ------------------------------ Printing the values ----------------------------------------
 
-print('----------------- Worker Range 6000 ----------------')
+print('----------------- Worker Range = 6000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[0])
 print('Expected satisfaction score of the assignment:',sat_greedy[0])
 
@@ -175,7 +175,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[0])
 print('\nTime Taken:',time[0],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Worker Range 7000 ----------------')
+print('----------------- Worker Range = 7000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[1])
 print('Expected satisfaction score of the assignment:',sat_greedy[1])
 
@@ -184,7 +184,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[1])
 print('\nTime Taken:',time[1],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Worker Range 8000 ----------------')
+print('----------------- Worker Range = 8000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[2])
 print('Expected satisfaction score of the assignment:',sat_greedy[2])
 
@@ -193,7 +193,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[2])
 print('\nTime Taken:',time[2],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Worker Range 9000 ----------------')
+print('----------------- Worker Range = 9000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[3])
 print('Expected satisfaction score of the assignment:',sat_greedy[3])
 
@@ -202,7 +202,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[3])
 print('\nTime Taken:',time[0],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Worker Range 10000 ----------------')
+print('----------------- Worker Range = 10000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[4])
 print('Expected satisfaction score of the assignment:',sat_greedy[4])
 

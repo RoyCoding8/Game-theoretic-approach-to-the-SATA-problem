@@ -143,7 +143,7 @@ sat_gt = [(i-mn)*100/(mx-mn) for i in sat_gt]
 
 # --------------------------- Printing the values -----------------------------------
 
-print('----------------- Budget 20000 ----------------')
+print('----------------- Budget = 20000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[0])
 print('Expected satisfaction score of the assignment:',sat_greedy[0])
 
@@ -152,7 +152,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[0])
 print('\nTime Taken:',time[0],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Budget 30000 ----------------')
+print('----------------- Budget = 30000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[1])
 print('Expected satisfaction score of the assignment:',sat_greedy[1])
 
@@ -161,7 +161,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[1])
 print('\nTime Taken:',time[1],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Budget 40000 ----------------')
+print('----------------- Budget = 40000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[2])
 print('Expected satisfaction score of the assignment:',sat_greedy[2])
 
@@ -170,7 +170,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[2])
 print('\nTime Taken:',time[2],'seconds')
 print('------------------------------------------------')
 
-print('----------------- Budget 50000 ----------------')
+print('----------------- Budget = 50000 ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[3])
 print('Expected satisfaction score of the assignment:',sat_greedy[3])
 

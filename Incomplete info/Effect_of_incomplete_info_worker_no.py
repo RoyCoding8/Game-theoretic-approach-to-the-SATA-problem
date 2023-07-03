@@ -111,7 +111,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[0])
 print('\nTime Taken:',time[0],'seconds')
 print('----------------------------------------------------------------')
 
-print('----------------- 2 worker with incomplete info ----------------')
+print('----------------- 2 workers with incomplete info ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[1])
 print('Expected satisfaction score of the assignment:',sat_greedy[1])
 
@@ -120,7 +120,7 @@ print('Expected satisfaction score of the assignment:',sat_gt[1])
 print('\nTime Taken:',time[1],'seconds')
 print('----------------------------------------------------------------')
 
-print('----------------- 3 worker with incomplete info ----------------')
+print('----------------- 3 workers with incomplete info ----------------')
 print('Expected no of assignments by CAG algorithm:',assignments_greedy[2])
 print('Expected satisfaction score of the assignment:',sat_greedy[2])
 
