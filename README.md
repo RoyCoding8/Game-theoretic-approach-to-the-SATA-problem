@@ -39,8 +39,8 @@ pip install pandas
 1. Navigate to 'Incomplete info' or 'Complete info' folder as per requirement.
 2. Open terminal in that folder.
 3. Run the following command to execute the program:
-```
-python <file_name>.py
-```
-where ```<file_name>``` is to be chosen as per requirement. For example, to view the assignment in the complete info version, use ```python main.py```.
+    ```
+    python <file_name>.py
+    ```
+    where ```<file_name>``` is to be chosen as per requirement. For example, to view the assignment in the complete info version, use ```python main.py```.
 4. The details for the evaluation metrics can be found in the ```main.py``` as comments.
