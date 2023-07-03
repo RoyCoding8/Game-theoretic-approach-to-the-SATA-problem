@@ -33,3 +33,25 @@ sat_greedy.append(sat_score_greedy)
 assignments_gt.append(asg_gt)
 sat_gt.append(sat_score_gt)
 time.append(end-start)
+
+# -------------------------------------------- Evaluation metrics --------------------------------------------
+
+# main.py (this) file has the generated input for 100 workers and 100 tasks
+
+# Effect_of_tasks.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of tasks
+
+# Effect_of_complete_info_worker_no.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of workers with complete information
+
+# Effect_of_incomplete_info_worker_no.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of workers with incomplete information
+
+# Effect_of_skills_of_incomplete_workers.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of skills of the worker with incomplete information
+
+# Effect_of_cost.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the worker cost
+
+# Effect_of_budget.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the task budget
+
+# Effect_of_ranges.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the range of the workers
+
+# Effect_of_task_skills.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of task skills
+
+# Effect_of_worker_skills.py file shows the behaviour of No of Assignments, Satisfaction scores and Time taken with respect to the number of worker skills

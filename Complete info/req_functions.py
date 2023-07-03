@@ -39,20 +39,22 @@ def psat(t:task,W:list[worker]) -> float:
 
 def sat(t:task,W:list[worker]) -> float:
     a=0.5
-    p_max,c_max=100000,10000    # To be decided later
+    p_max,c_max=100000,10000
     return a*psat(t,W)/p_max+(1-a)*csat(W)/c_max
 
 def check_worker(t:task,w:worker):
     if not set_itr(t.K_req,w.K):
        return False
     dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
-    if(dist>w.r):
+    if dist>w.r:
         return False
     return True
 
 def check_CWS(t:task,W:list[worker]):
     for w in W:
         if not check_worker(t,w):
+            return False
+        if psat(t,W)<0:
             return False
     return True
 
@@ -78,5 +80,5 @@ def cop_sum(W:list[worker],w:worker) -> float:
 
 def dif_sat(dpsat:float,dcsat:float) -> float:
     a=0.5
-    p_max,c_max=100000,10000    # To be decided later
+    p_max,c_max=100000,10000
     return a*dpsat/p_max+(1-a)*dcsat/c_max

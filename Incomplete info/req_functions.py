@@ -46,13 +46,15 @@ def check_worker(t:task,w:worker):
     if not set_itr(t.K_req,w.K):
        return False
     dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
-    if(dist>w.r):
+    if dist>w.r:
         return False
     return True
 
 def check_CWS(t:task,W:list[worker]):
     for w in W:
         if not check_worker(t,w):
+            return False
+        if psat(t,W)<0:
             return False
     return True
 
