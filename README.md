@@ -45,4 +45,4 @@ pip install pandas
     where ```<file_name>``` is to be chosen as per requirement. For example, to view the assignment in the complete info version, use ```python main.py```.
 4. The details for the evaluation metrics can be found in the ```main.py``` as comments.
 
-## [The Project Report](https://drive.google.com/file/d/1aPKLWiZX29fh1D7IKeVYA6wwkCrV10or/view?usp=sharing) 
+<b><u><a href="https://drive.google.com/path/to/your/document" target="_blank">The Project Report</a></u></b>
