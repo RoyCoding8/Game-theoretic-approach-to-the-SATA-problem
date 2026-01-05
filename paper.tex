@@ -1,0 +1,270 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+
+% Geometry settings
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% Theorem environments
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\title{Satisfaction-aware Task Assignment in Spatial Crowdsourcing}
+\author{Yuan Xie, Yongheng Wang, Kenli Li, Xu Zhou, Zhao Liu, Keqin Li}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+With the ubiquity of GPS-equipped devices, spatial crowdsourcing (SC) technology has been widely utilized in our daily life. As a novel computing paradigm, it hires mobile users as workers who physically move to the location of the task and perform the task. Task assignment is a fundamental issue in SC. In real life, there are many complex tasks requiring different workers, among which the quality of worker cooperation and the price satisfaction of users should not be ignored. Hence, this paper examines a satisfaction-aware task assignment (SATA) problem with the goal of maximizing overall user satisfaction, where the user satisfaction integrates the satisfaction towards price and cooperation quality. The SATA problem has been proved to be NP-hard by reducing it from the k-set packing problem. In addition, two algorithms, namely, conflict-aware greedy (CAG) algorithm and game theoretic (GT) algorithm with an optimization strategy, are proposed for solving the SATA problem. The CAG algorithm can efficiently obtain a result with provable approximate bound, while the GT algorithm is proven to be convergent which can find a Nash equilibrium. Extensive experiments have demonstrated the effectiveness and efficiency of our proposed approaches on both real and synthetic datasets.
+\end{abstract}
+
+\section{Introduction}
+
+With the popularity of smart mobile devices, spatial crowdsourcing (SC), as a novel concept, is proposed to employ sensor-equipped people as workers who would move to the designated location and contribute to the task. The SC concept has been extensively applied in many successful crowdsourcing platforms (e.g., TaskRabbit, DiDi, and Grab) and aroused interest from both industry and academia.
+
+As a fundamental problem in SC, task assignment has drawn considerable attention, most of which focuses on allocating simple tasks to workers, like taking photos, reporting traffic conditions and delivering passengers. In practice, however, many real-life tasks are complex requiring multiple workers, such as event organization, house decoration and wedding preparation. These complex tasks require multiple workers who provide diverse skills to play different roles in the task.
+
+An obscure assumption recognized by existing SC studies is that the workers are volunteered to complete the tasks assigned to them. However, different combinations of workers will exhibit different behaviors when completing the same task. For example, two worker sets with different cooperation qualities for the same task may lead to different types of behaviors. One group of workers with plentiful cooperation experience and close proximity to the task usually complete the tasks quickly and fabulously, while another group may not achieve a high satisfaction for both workers and task requesters since the worker group requires a higher travel cost and lacks any experience of collaboration.
+
+Therefore, the key to control quality for task accomplishment is how to combine workers who have been frequently cooperating with each other. Furthermore, incorporating price satisfaction of workers also can improve the effectiveness of spatial task assignments. Inspired by our observation, it is the key to optimizing price satisfaction and worker cooperation quality satisfaction to improve task allocation quality.
+
+Based on the aforementioned analysis, we formulate user satisfaction by trading off the cooperation quality and price information. Next, we propose a novel task assignment problem in SC, namely the satisfaction-aware task assignment (SATA) problem, which aims to maximize overall user satisfaction. To the best of our knowledge, this is the first study to propose the problem to optimize the perspective of above factors in Spatial Crowdsourcing.
+
+\section{Related Work}
+
+Spatial crowdsourcing is a new computing paradigm requiring workers to move to a specific location and accomplish the assigned tasks. Tong et al. identified four core issues in spatial crowdsourcing: (1) task assignment, (2) quality control, (3) incentive mechanism design, and (4) privacy protection. Among them, the most fundamental challenge problem in spatial crowdsourcing is task assignment.
+
+\subsection{Offline Mode and Online Mode}
+Based on the input objective, task assignment can be classified into the offline and online categories. The offline mode has to know all the information about tasks and workers in advance. Comparatively speaking, the online mode is more complex, i.e., workers and tasks arrive randomly.
+
+\subsection{Task Publishing Mode}
+Kazemi et al. defined two task publishing modes in SC problems: server assigned tasks (SAT) mode and worker selected tasks (WST) mode. SAT is a standard mode, which assigns workers (tasks) to tasks (workers) under the control of the platform. In WST mode, the platform allows workers to choose the tasks proactively or reject the assigned tasks.
+
+\subsection{Optimization of Task Assignment}
+Existing studies have presented different ways of assigning tasks to workers, and the task assignment of SC seeks to achieve different optimization goals, such as maximizing the number of assigned tasks or maximizing the total payoff of the SC platform. This paper proposes the satisfaction-aware task assignment problem aiming at maximizing the overall user satisfaction for optimizing price satisfaction and cooperation quality.
+
+\section{Problem Statement}
+
+\begin{definition}[Spatial Worker]
+Let $W=\{w_{1},w_{2},\dots,w_{m}\}$ denote the spatial workers appearing on the platform. The worker $w_{j}=(L_{w_{j}},K_{w_{j}},R_{w_{j}},v)$ claims he has the skill set $K_{w_{j}}$ and is allowed to move within working range $R_{w_{j}}$ in his location $L_{w_{j}}$. Each worker has an average unit cost $v$ for traveling.
+\end{definition}
+
+For given workers $w_{i}$ and $w_{j}$, the cooperation score is $q_{j}(w_{k})$, such that:
+\begin{equation}
+q_{j}(w_{k}) = \beta \cdot \omega + (1-\beta) \cdot \frac{|G_{w_{j}} \cap G_{w_{k}}|}{|G_{w_{j}} \cup G_{w_{k}}|}
+\end{equation}
+where $\omega$ is a basic cooperation score set by the platform (between 0 and 1), and $\beta$ is the linear coefficient. $G_{w_{j}}$ and $G_{w_{k}}$ denote the task sets they have participated in.
+
+\begin{definition}[Spatial Task]
+Let $T=\{t_{1},t_{2},\dots,t_{n}\}$ be a set of spatial tasks. Task $t_{i}=(L_{t_{i}},K_{t_{i}},B_{t_{i}},D_{t_{i}})$ is reported by the requester with a specific location $L_{t_{i}}$. The requester also gives task budget $B_{t_{i}}$, skill requirement $K_{t_{i}}$, and expiration $D_{t_{i}}$.
+\end{definition}
+
+\begin{definition}[Candidate Worker Set]
+Candidate worker set (CWS) is the available workers for task $t_{i}$ which satisfy constraints such that:
+\begin{itemize}
+    \item Each worker in CWS has at least a valid skill matching to the task $t_{i}$ (i.e., $\forall w_{j} \in CWS, K_{w_{j}} \cap K_{t_{i}} \neq \emptyset$).
+    \item The location of task $t_{i}$ is located within reachable work range of workers in the CWS (i.e., $\forall w_{j} \in CWS, dist(t_i, w_j) < R_{w_j}$).
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Tasks-and-Worker Set Pair]
+A successful matching pair $\langle t_{i},W_{i}\rangle$ denotes the task $t_{i}$ will be completed by the workers in $W_{i}$.
+\end{definition}
+
+\begin{definition}[User Satisfaction]
+Satisfaction is comprised of price satisfaction and cooperation satisfaction:
+\begin{equation}
+S(t_{i},W_{i}) = \frac{\alpha}{P_{max}} \cdot P(t_{i},W_{i}) + \frac{1-\alpha}{C_{max}} \cdot C(W_{i})
+\end{equation}
+where $P(t_{i},W_{i})$ denotes the price satisfaction and $C(W_{i})$ represents the cooperation quality.
+\end{definition}
+
+The price satisfaction is negatively correlated with total travel cost:
+\begin{equation}
+P(t_{i},W_{i}) = B_{t_{i}} - \sum_{w_{j} \in W_{i}} dist(t_{i},w_{j}) \cdot v
+\end{equation}
+
+The cooperation score is the average cooperation score of all worker pairs in $W_{i}$:
+\begin{equation}
+C(W_{i}) = \frac{\sum_{w_{j} \in W_{i}, w_{k} \in W_{i}, k \neq j} q_{j}(w_{k})}{|W_{i}|-1}
+\end{equation}
+
+\begin{definition}[Satisfaction-aware problem]
+Given a worker set $W$ and a task set $T$, our problem is to find task-and-worker set pairs to maximize the total satisfaction score:
+\begin{equation}
+\max \sum_{t_{i} \in T} S(t_{i},W_{i})
+\end{equation}
+Subject to the following constraints:
+\begin{align}
+\label{eq:constraints}
+& \text{1. Range:} \quad dist(t_i, w_j) \le R_{w_j}, \quad \forall t_i \in T, \forall w_j \in W_i \\
+& \text{2. Skill:} \quad K_{t_i} \subseteq \bigcup_{w_j \in W_i} K_{w_j}, \quad \forall t_i \in T \\
+& \text{3. Conflict:} \quad W_i \cap W_k = \emptyset, \quad \forall i \neq k \\
+& \text{4. Budget:} \quad \sum_{w_j \in W_i} dist(t_i, w_j) \cdot v \le B_{t_i}, \quad \forall t_i \in T \\
+& \text{5. Duplicate:} \quad K_{w_j} \cap K_{w_k} = \emptyset, \quad \forall w_j, w_k \in W_i, j \neq k
+\end{align}
+\end{definition}
+
+\subsection{The hardness of the SATA problem}
+\begin{theorem}
+The problem of satisfaction-aware task assignment is NP-hard.
+\end{theorem}
+\begin{proof}
+The proof is achieved by reducing the SATA problem from the k-set packing (k-SP) problem, which is known to be NP-hard.
+\end{proof}
+
+\section{Framework}
+
+The framework generally handles the SATA problem in a batch-based manner.
+\begin{algorithm}
+\caption{Batch-based Framework}
+\begin{algorithmic}[1]
+\STATE Initialize $\mathcal{A}_{p} \leftarrow \emptyset$
+\WHILE{current timestamp $p$ in $T_{p}$}
+    \STATE Collect all available tasks for $T$
+    \STATE Collect all available workers for $W$
+    \FORALL{$t_{i} \in T$}
+        \STATE Select the candidate worker set (CWS) for $t_{i}$ under skill and range constraints
+    \ENDFOR
+    \STATE Utilize greedy or game theoretic approach to obtain assignment $\mathcal{A}_{p}$
+    \FORALL{$\langle t_{i},W_{i}\rangle \in \mathcal{A}_{p}$}
+        \STATE Inform all workers in $W_{i}$ to execute task $t_{i}$
+    \ENDFOR
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+\section{The Greedy Approach}
+
+\subsection{The Satisfaction Increment}
+The satisfaction increment $\Delta S$ when a single worker $w_j$ is added to task $t_i$ is:
+\begin{equation}
+\Delta S(w_{j},t_{i}) = \frac{\alpha}{P_{max}} \cdot \Delta P + \frac{1-\alpha}{C_{max}} \cdot \Delta C
+\end{equation}
+where $\Delta P = P(t_{i},W_{i} \cup \{w_{j}\}) - P(t_{i},W_{i})$ and $\Delta C = C(W_{i} \cup \{w_{j}\}) - C(W_{i})$.
+
+\subsection{The Greedy Algorithm}
+We present the Conflict-aware Greedy (CAG) algorithm.
+
+\begin{algorithm}
+\caption{Conflict-aware Greedy (CAG) Algorithm}
+\begin{algorithmic}[1]
+\STATE Initialize $\mathcal{A}_{p} \leftarrow \emptyset$
+\FORALL{$t_{i} \in T$}
+    \STATE Select candidate workers (CWS)
+    \STATE Find a set of workers $W_{i}^{*}$ with highest satisfaction score for $t_{i}$
+\ENDFOR
+\WHILE{there is a task pair competing for the same worker set}
+    \STATE Let $W_{c}$ be conflict workers among $W_{i}^{*}$ and $W_{j}^{*}$
+    \FORALL{$w_{c} \in W_{c}$}
+        \STATE Calculate $\Delta S_{i}$ and $\Delta S_{j}$ by removing $w_c$
+        \IF{$\Delta S_{i} > \Delta S_{j}$}
+            \STATE $W_{j}^{*} \leftarrow W_{j}^{*} \setminus \{w_{c}\}$
+        \ELSE
+            \STATE $W_{i}^{*} \leftarrow W_{i}^{*} \setminus \{w_{c}\}$
+        \ENDIF
+        \STATE $W_{c} \leftarrow W_{c} \setminus \{w_{c}\}$
+    \ENDFOR
+\ENDWHILE
+\STATE Update available sets $T$ and $W$ based on valid assignments
+\WHILE{$W \neq \emptyset$ or $T \neq \emptyset$}
+    \STATE Select a task-and-worker pair $(w_{j},t_{i})$ with highest satisfaction increment
+    \STATE $\mathcal{A}_{p} \leftarrow \mathcal{A}_{p} \cup \{(w_{j},t_{i})\}$
+    \STATE Update $W$ and $T$
+\ENDWHILE
+\RETURN $\mathcal{A}_{p}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Analysis}
+The time complexity of the CAG algorithm is $O(nm + n^2\hat{m}) + O(n\hat{m})$.
+\begin{lemma}
+$Sum(A)$ is submodular. The CAG algorithm achieves an approximation bound of $(1-\frac{1}{e}) \cdot S(T^{*})$.
+\end{lemma}
+
+\section{The Game Theory Approach}
+
+We propose a Game Theoretic (GT) algorithm allowing workers to choose tasks proactively.
+
+\subsection{The Game Theoretic Algorithm}
+
+\begin{algorithm}
+\caption{Game Theoretic Algorithm}
+\begin{algorithmic}[1]
+\STATE Apply CAG algorithm to obtain initial assignment
+\STATE Initialize strategy of workers in $W$
+\WHILE{Nash Equilibrium is not reached}
+    \FORALL{$w_{j} \in W$}
+        \STATE $U_{max} \leftarrow -\infty$
+        \FORALL{$t_{i} \in T_{cj}$ (Candidate Tasks)}
+            \STATE Compute $Utility(w_{j},s_{-j})$
+            \IF{$U > U_{max}$}
+                \STATE $U_{max} \leftarrow U$
+                \STATE $s_{w_{j}} \leftarrow t_{i}$ (Assign worker to task)
+            \ENDIF
+        \ENDFOR
+    \ENDFOR
+\ENDWHILE
+\RETURN $\mathcal{A}_{p}$
+\end{algorithmic}
+\end{algorithm}
+
+The utility function is defined as:
+\begin{equation}
+U(s_{i},s_{-i}) = \Delta S(w_{j},t_{i}) = S(W_{i} \cup w_{j}) - S(W_{i})
+\end{equation}
+
+\subsection{Analysis}
+\subsubsection{Existence}
+We define the potential function of the SATA game as $Q = \sum_{t_{i} \in T} S(t_{i},W_{i})$.
+\begin{theorem}
+The SATA strategy game is a potential game.
+\end{theorem}
+
+\subsubsection{Quality}
+\begin{theorem}
+In the pure strategy game of SATA, the upper bound of Price of Stability (PoS) is 1.
+\end{theorem}
+
+\subsubsection{Optimization Strategy}
+A Threshold Stop (TS) optimization strategy is proposed to improve efficiency. If the satisfaction score increment is smaller than $\gamma \cdot S_{c}$, the iterations are stopped.
+
+\section{Experiments}
+
+We tested the approaches on real (Meetup dataset) and synthetic datasets.
+\begin{itemize}
+    \item \textbf{Baselines:} MIP (Mixed Integer Programming), Random, Greedy, SA (Simulated Annealing).
+    \item \textbf{Proposed:} CAG, GT, GT+TS.
+\end{itemize}
+
+\subsection{Results}
+\begin{itemize}
+    \item \textbf{Effect of Number of Tasks:} Satisfaction scores of CAG, GT, and GT+TS are higher than baselines.
+    \item \textbf{Effect of Number of Workers:} GT and GT+TS achieve the highest number of tasks assigned.
+    \item \textbf{Running Time:} CAG is efficient. GT requires more time but achieves better satisfaction. GT+TS effectively reduces running time with minimal loss in satisfaction.
+    \item \textbf{Real Datasets:} The proposed methods outperform baselines in satisfaction scores and efficiency on the Meetup dataset.
+\end{itemize}
+
+\section{Conclusion}
+
+This paper defined a satisfaction-aware task assignment (SATA) problem in spatial crowdsourcing. We proved its NP-hardness and proposed the CAG and GT algorithms. Extensive experiments demonstrated that our approaches are efficient and effective.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{99}
+\bibitem{1} P. Cheng, X. Lian, L. Chen, J. Han, J. Zhao, Task assignment on multi-skill oriented spatial crowdsourcing, IEEE TKDE (2016).
+\bibitem{2} L. Zheng, L. Chen, Multi-campaign oriented spatial crowdsourcing, IEEE TKDE (2020).
+\bibitem{3} P. Cheng, L. Chen, J. Ye, Cooperation-aware task assignment in spatial crowdsourcing, Proc. ICDE (2019).
+\bibitem{10} Y. Tong, Z. Zhou, Y. Zeng, L. Chen, C. Shahabi, Spatial crowdsourcing: a survey, VLDB J. (2020).
+\end{thebibliography}
+
+\end{document}
