@@ -1,110 +1,76 @@
 from .classes import *
 from .distance import *
 
-def set_itr(l1:list,l2:list) -> list:   # Compute intersection
-    s=set()
-    s1,s2=set(l1),set(l2)
-    for i in l1:
-        s.add(i)
-    for i in l2:
-        s.add(i)
-    l=[]
-    for i in s:
-        if (i in s1) and (i in s2):
-            l.append(i)
-    return l
+def set_itr(l1, l2):
+    s1, s2 = set(l1), set(l2)
+    return [i for i in s1 if i in s2]
 
-def csore(u:worker,v:worker) -> float:
-    b,w = 0.5,0.01
-    list1, list2 = u.task_set,v.task_set
-    itr=len(set_itr(list1,list2))
-    unon=len(list1)+len(list2)-itr
+def csore(u, v):
+    b, w = 0.5, 0.01
+    itr = len(set_itr(u.task_set, v.task_set))
+    unon = len(u.task_set) + len(v.task_set) - itr
     if unon == 0:
-        return b*w
-    return b*w+(1-b)*itr/unon
+        return b * w
+    return b * w + (1 - b) * itr / unon
 
-def csat(W:list[worker]) -> float:
-    n,sum = len(W),0
-    if(n<=1):
+def csat(W):
+    n = len(W)
+    if n <= 1:
         return 0
+    total = 0
     for i in range(n):
         for j in range(i):
-            sum+=csore(W[i],W[j])
-    return 2*sum/(n-1)
+            total += csore(W[i], W[j])
+    return 2 * total / (n - 1)
 
-def psat(t:task,W:list[worker]) -> float:
-    sum=0
+def psat(t, W):
+    total = 0
     for w in W:
-        dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
-        sum+=dist*(w.cost)
-    return t.budget-sum
+        dist = calculate_distance(t.latitude, t.longitude, w.latitude, w.longitude)
+        total += dist * w.cost
+    return t.budget - total
 
-def sat(t:task,W:list[worker]) -> float:
-    a=0.5
-    p_max,c_max=100000,10000
-    return a*psat(t,W)/p_max+(1-a)*csat(W)/c_max
+def sat(t, W):
+    a, p_max, c_max = 0.5, 100000, 10000
+    return a * psat(t, W) / p_max + (1 - a) * csat(W) / c_max
 
-def check_worker(t:task,w:worker):
-    if not set_itr(t.K_req,w.K):
-       return False
-    dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
-    if dist>w.r:
+def check_worker(t, w):
+    if not set_itr(t.K_req, w.K):
         return False
-    return True
+    dist = calculate_distance(t.latitude, t.longitude, w.latitude, w.longitude)
+    return dist <= w.r
 
-def check_validity(t:task, W:list[worker]) -> bool:
-    # 1. Budget Constraint
-    if psat(t,W) < 0:
+def check_validity(t, W):
+    if psat(t, W) < 0:
         return False
-    
-    # 2. Skill Coverage: Union(K_w) must cover K_t
-    covered_skills = set()
+    covered = set()
     for w in W:
-        for s in w.K:
-            covered_skills.add(s)
-    
-    for req in t.K_req:
-        if req not in covered_skills:
-            return False
-
-    # 3. Disjoint Skills (Duplicate Constraint): K_wi intersect K_wj = empty
+        covered.update(w.K)
+    if not all(req in covered for req in t.K_req):
+        return False
     n = len(W)
     for i in range(n):
-        for j in range(i+1, n):
-            if set_itr(W[i].K, W[j].K): # If intersection is non-empty
+        for j in range(i + 1, n):
+            if set_itr(W[i].K, W[j].K):
                 return False
-                
     return True
 
-def check_CWS(t:task,W:list[worker]):
-    # Check individual constraints first
+def check_CWS(t, W):
     for w in W:
-        if not check_worker(t,w):
+        if not check_worker(t, w):
             return False
-    # Check group constraints
     return check_validity(t, W)
 
-def rm_el(a,w) -> list:
-    l=[]
-    for i in a:
-        if i!=w:
-            l.append(i)
-    return l
+def rm_el(a, w):
+    return [i for i in a if i != w]
 
-def dif_psat(t:task,w:worker) -> float:
-    dist=calculate_distance(t.latitude,t.longitude,w.latitude,w.longitude)
-    return -w.cost*dist
+def dif_psat(t, w):
+    dist = calculate_distance(t.latitude, t.longitude, w.latitude, w.longitude)
+    return -w.cost * dist
 
+def cop_sum(W, w):
+    return sum(csore(i, w) for i in W)
 
-# If c_sat is undivided, it will be just sum of all cooperation scores of all workers
-# This function returns its difference on addition of a new worker
-def cop_sum(W:list[worker],w:worker) -> float:
-    sum=0
-    for i in W:
-        sum+=csore(i,w)
-    return sum
-
-def dif_sat(dpsat:float,dcsat:float) -> float:
-    a=0.5
-    p_max,c_max=100000,10000
-    return a*dpsat/p_max+(1-a)*dcsat/c_max
+def dif_sat(dpsat, dcsat):
+    a, p_max, c_max = 0.5, 100000, 10000
+    return a * dpsat / p_max + (1 - a) * dcsat / c_max

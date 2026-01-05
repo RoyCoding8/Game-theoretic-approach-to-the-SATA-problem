@@ -1,150 +1,80 @@
-"""
-Monte Carlo Probabilistic Experiment Visualization
-Analyzes algorithm performance under uncertainty using Monte Carlo sampling.
-"""
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 import matplotlib.pyplot as plt
 import time as tm
-from src.common.classes import worker, task, POS_INF
 from src.algorithms.greedy import greedy
 from src.algorithms.gt import GT_algo
 from src.common.utils import sat
-from src.probabilistic.monte_carlo import sample_skills, get_subsets
-from data.generators.gen_input import (
-    n, m, budget, task_location, task_skills,
-    worker_location, worker_range, worker_cost, worker_skills, task_history, ws_incmp
-)
+from src.probabilistic.monte_carlo import sample_skills
+from data.generators.gen_input import n, m, budget, task_location, task_skills, worker_location, worker_range, worker_cost, worker_skills, task_history, ws_incmp
 from data.generators.start import input_tasks, input_workers
 
-def Cal_Sat(Asg):
-    """Calculate total satisfaction score for all assignments."""
+def cal_sat(Asg):
     return sum(sat(t, [w]) for w, t in Asg)
 
-def run_monte_carlo(num_samples_list):
-    """Run Monte Carlo experiments with different sample sizes."""
-    results = {
-        'samples': num_samples_list,
-        'greedy_assignments': [],
-        'greedy_satisfaction': [],
-        'gt_assignments': [],
-        'gt_satisfaction': [],
-        'time': []
-    }
+def run(num_samples_list):
+    results = {'samples': num_samples_list, 'cag_asg': [], 'cag_sat': [], 'gt_asg': [], 'gt_sat': [], 'time': []}
     
-    # Create tasks once
     T = []
     input_tasks(n, T, task_location, task_skills, budget)
     
-    for num_samples in num_samples_list:
-        print(f"Running Monte Carlo with {num_samples} samples...")
+    for num in num_samples_list:
+        print(f"MC samples = {num}...")
+        cag_a, cag_s, gt_a, gt_s = 0, 0, 0, 0
         
-        asg_greedy_total = 0
-        sat_greedy_total = 0
-        asg_gt_total = 0
-        sat_gt_total = 0
-        
-        start = tm.time()
-        
-        for _ in range(num_samples):
-            # Sample skills for uncertain workers
+        t0 = tm.time()
+        for _ in range(num):
             sampled = sample_skills(ws_incmp)
+            curr_skills = worker_skills.copy()
+            for idx, skills in sampled.items():
+                curr_skills[idx] = skills
             
-            # Create copy of worker_skills and update with sampled values
-            current_skills = worker_skills.copy()
-            for worker_idx, skills in sampled.items():
-                current_skills[worker_idx] = skills
-            
-            # Create workers with current skills
             W = []
-            input_workers(m, W, worker_location, worker_range, worker_cost, current_skills, task_history)
+            input_workers(m, W, worker_location, worker_range, worker_cost, curr_skills, task_history)
             
-            # Run Greedy
-            Asg_greedy, _ = greedy(T, W)
-            asg_greedy_total += len(Asg_greedy)
-            sat_greedy_total += Cal_Sat(Asg_greedy)
+            asg, _ = greedy(T, W)
+            cag_a += len(asg)
+            cag_s += cal_sat(asg)
             
-            # Run GT
-            Asg_gt = GT_algo(T, W)
-            asg_gt_total += len(Asg_gt)
-            sat_gt_total += Cal_Sat(Asg_gt)
+            asg = GT_algo(T, W)
+            gt_a += len(asg)
+            gt_s += cal_sat(asg)
         
-        end = tm.time()
-        
-        # Average results
-        results['greedy_assignments'].append(asg_greedy_total / num_samples)
-        results['greedy_satisfaction'].append(sat_greedy_total / num_samples)
-        results['gt_assignments'].append(asg_gt_total / num_samples)
-        results['gt_satisfaction'].append(sat_gt_total / num_samples)
-        results['time'].append(end - start)
+        results['cag_asg'].append(cag_a / num)
+        results['cag_sat'].append(cag_s / num)
+        results['gt_asg'].append(gt_a / num)
+        results['gt_sat'].append(gt_s / num)
+        results['time'].append(tm.time() - t0)
     
     return results
 
-def plot_results(results):
-    """Generate visualization plots."""
-    samples = results['samples']
+def plot(results):
+    x = results['samples']
     
-    # Plot 1: Average Assignments vs Sample Size
-    plt.figure(figsize=(10, 6))
-    plt.plot(samples, results['greedy_assignments'], 'b-o', label='CAG (Greedy)', linewidth=2)
-    plt.plot(samples, results['gt_assignments'], 'r-s', label='GT', linewidth=2)
-    plt.xlabel('Number of Monte Carlo Samples', fontsize=12)
-    plt.ylabel('Average Number of Assignments', fontsize=12)
-    plt.title('Monte Carlo: Average Assignments vs Sample Size', fontsize=14)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig('experiments/probabilistic/mc_assignments.png', dpi=150)
+    plt.figure()
+    plt.plot(x, results['cag_asg'], 'b-o', label='CAG')
+    plt.plot(x, results['gt_asg'], 'r-s', label='GT')
+    plt.xlabel('MC Samples'); plt.ylabel('Avg Assignments'); plt.legend(); plt.grid(alpha=0.3)
+    plt.savefig('experiments/probabilistic/mc_assignments.png')
     plt.show()
     
-    # Plot 2: Average Satisfaction vs Sample Size
-    plt.figure(figsize=(10, 6))
-    plt.plot(samples, results['greedy_satisfaction'], 'b-o', label='CAG (Greedy)', linewidth=2)
-    plt.plot(samples, results['gt_satisfaction'], 'r-s', label='GT', linewidth=2)
-    plt.xlabel('Number of Monte Carlo Samples', fontsize=12)
-    plt.ylabel('Average Satisfaction Score', fontsize=12)
-    plt.title('Monte Carlo: Average Satisfaction vs Sample Size', fontsize=14)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig('experiments/probabilistic/mc_satisfaction.png', dpi=150)
+    plt.figure()
+    plt.plot(x, results['cag_sat'], 'b-o', label='CAG')
+    plt.plot(x, results['gt_sat'], 'r-s', label='GT')
+    plt.xlabel('MC Samples'); plt.ylabel('Avg Satisfaction'); plt.legend(); plt.grid(alpha=0.3)
+    plt.savefig('experiments/probabilistic/mc_satisfaction.png')
     plt.show()
     
-    # Plot 3: Total Time vs Sample Size
-    plt.figure(figsize=(10, 6))
-    plt.plot(samples, results['time'], 'g-^', label='Total Time', linewidth=2)
-    plt.xlabel('Number of Monte Carlo Samples', fontsize=12)
-    plt.ylabel('Total Time (seconds)', fontsize=12)
-    plt.title('Monte Carlo: Computation Time vs Sample Size', fontsize=14)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig('experiments/probabilistic/mc_time.png', dpi=150)
+    plt.figure()
+    plt.plot(x, results['time'], 'g-^')
+    plt.xlabel('MC Samples'); plt.ylabel('Time (s)'); plt.grid(alpha=0.3)
+    plt.savefig('experiments/probabilistic/mc_time.png')
     plt.show()
-
-def print_results(results):
-    """Print detailed results."""
-    print("\n" + "="*70)
-    print("RESULTS: Monte Carlo Probabilistic Experiment")
-    print("="*70)
-    
-    for i, s in enumerate(results['samples']):
-        print(f"\n--- {s} Samples ---")
-        print(f"CAG: Avg Assignments={results['greedy_assignments'][i]:.2f}, "
-              f"Avg Satisfaction={results['greedy_satisfaction'][i]:.4f}")
-        print(f"GT:  Avg Assignments={results['gt_assignments'][i]:.2f}, "
-              f"Avg Satisfaction={results['gt_satisfaction'][i]:.4f}")
-        print(f"Total Time: {results['time'][i]:.2f}s")
 
 if __name__ == "__main__":
-    num_samples_list = [10, 50, 100, 200]
-    
-    print("="*70)
-    print("Monte Carlo Probabilistic Experiment")
-    print("="*70)
-    
-    results = run_monte_carlo(num_samples_list)
-    print_results(results)
-    plot_results(results)
+    samples = [10, 50, 100, 200]
+    results = run(samples)
+    for i, s in enumerate(samples):
+        print(f"S={s}: CAG({results['cag_asg'][i]:.1f}, {results['cag_sat'][i]:.2f}) GT({results['gt_asg'][i]:.1f}, {results['gt_sat'][i]:.2f}) T={results['time'][i]:.1f}s")
+    plot(results)

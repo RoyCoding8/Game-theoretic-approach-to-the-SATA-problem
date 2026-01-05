@@ -26,46 +26,28 @@ This repository implements two core approaches: **Conflict-Aware Greedy (CAG)** 
 ```
 Game-theoretic-approach-to-the-SATA-problem/
 ├── src/                            # Core Library
-│   ├── common/                     # Shared utilities
-│   │   ├── classes.py              # worker, task class definitions
-│   │   ├── distance.py             # Haversine distance calculation
-│   │   └── utils.py                # Satisfaction formulas, constraint checks
-│   ├── algorithms/                 # Assignment algorithms
-│   │   ├── greedy.py               # Conflict-Aware Greedy (CAG)
-│   │   └── gt.py                   # Game Theoretic (GT) algorithm
-│   └── probabilistic/              # Uncertainty handling
-│       └── monte_carlo.py          # Skill sampling functions
+│   ├── common/                     # classes.py, distance.py, utils.py
+│   ├── algorithms/                 # greedy.py, gt.py
+│   └── probabilistic/              # monte_carlo.py
 │
-├── data/                           # Input Data
-│   ├── generators/                 # Data loading scripts
-│   │   ├── gen_input.py            # Main CSV loader
+├── data/
+│   ├── generators/
+│   │   ├── gen_data.py             # Generates random task/worker data
+│   │   ├── populate_csv.py         # Writes generated data to CSVs
+│   │   ├── gen_input.py            # Loads CSVs into memory
 │   │   └── start.py                # Helper functions
-│   └── raw/                        # CSV files (12 files)
-│       ├── task_budget.csv
-│       ├── task_location.csv
-│       ├── task_skills.csv
-│       ├── worker_location.csv
-│       ├── worker_range.csv
-│       ├── worker_skills.csv
-│       ├── worker_cost.csv
-│       ├── worker_task_history.csv
-│       └── worker_skills_incomplete.csv
+│   └── raw/                        # 9 CSV files (task_*, worker_*)
 │
-├── experiments/                    # Experiment Scripts
-│   ├── deterministic/              # Complete info experiments
-│   │   ├── effect_of_budget.py
-│   │   ├── effect_of_workers.py
-│   │   ├── effect_of_tasks.py
-│   │   └── effect_of_ranges.py
-│   ├── probabilistic/              # Incomplete info experiments
-│   │   ├── main.py                 # Monte Carlo entry point
-│   │   └── effect_of_monte_carlo.py
-│   └── run_all.py                  # Master script to run all experiments
+├── experiments/
+│   ├── deterministic/              # effect_of_budget.py, etc.
+│   ├── probabilistic/              # main.py, effect_of_monte_carlo.py
+│   └── run_all.py                  # Runs all experiments
 │
-├── tests/                          # Test Suite
-│   └── test_sanity.py              # Quick sanity check
-└── README.md                       # This file
+├── tests/
+│   └── test_sanity.py
+└── README.md
 ```
+
 
 ## Approaches
 
@@ -84,7 +66,7 @@ The process continues until a **Nash Equilibrium** is reached (no worker can imp
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Game-theoretic-approach-to-the-SATA-problem.git
+   git clone https://github.com/RoyCoding8/Game-theoretic-approach-to-the-SATA-problem.git
    cd Game-theoretic-approach-to-the-SATA-problem
    ```
 
@@ -99,9 +81,6 @@ The process continues until a **Nash Equilibrium** is reached (no worker can imp
 
 ### Run Tests
 ```bash
-# Comprehensive test suite
-python tests/test.py
-
 # Quick sanity check
 python tests/test_sanity.py
 ```
@@ -138,3 +117,36 @@ Each experiment script:
   - Satisfaction Score vs. Variable
   - Runtime vs. Variable
 - Saves plots as PNG files in the experiment folder
+
+## Custom Input Data
+
+### Option 1: Generate Random Data
+```bash
+python data/generators/populate_csv.py   # Generate random data -> write CSVs
+python experiments/run_all.py             # Run experiments with that data
+```
+Edit `data/generators/gen_data.py` to change N_TASKS, N_WORKERS, BUDGET ranges, etc.
+
+### Option 2: Create Your Own CSVs
+
+Place these 9 files in `data/raw/`:
+
+| File | Columns |
+|------|---------|
+| `task_budget.csv` | task, budget |
+| `task_location.csv` | task, latitude, longitude |
+| `task_skills.csv` | task, req_skill (one row per skill) |
+| `worker_location.csv` | worker, latitude, longitude |
+| `worker_range.csv` | worker, range (km) |
+| `worker_cost.csv` | worker, cost |
+| `worker_skills.csv` | worker, skill (one row per skill) |
+| `worker_task_history.csv` | worker, task |
+| `worker_skills_incomplete.csv` | worker, probability, skill |
+
+IDs are 1-indexed integers. Then run `python experiments/run_all.py`.
+
+### Data Pipeline
+```
+gen_data.py → populate_csv.py → data/raw/*.csv → gen_input.py → experiments/
+  (generate)     (write CSVs)                       (load)        (run)
+```

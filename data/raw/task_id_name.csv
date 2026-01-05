@@ -1,101 +1,101 @@
 task_id,task_name
-1,Website building
-2,App building
-3,Database design
-4,Graphic design
-5,Content writing
-6,SEO optimization
-7,Mobile app development
-8,E-commerce integration
-9,Network configuration
-10,System testing
-11,Data analysis
-12,UI/UX design
-13,Front-end development
-14,Back-end development
-15,Software debugging
-16,Server administration
-17,Cybersecurity audit
-18,Project management
-19,Quality assurance
-20,Cloud infrastructure setup
-21,AI algorithm development
-22,Machine learning model training
-23,Data visualization
-24,Game development
-25,Social media marketing
-26,User research
-27,IT consulting
-28,DevOps implementation
-29,Database optimization
-30,Technical writing
-31,Blockchain integration
-32,IoT device programming
-33,Virtual reality app development
-34,Augmented reality app development
-35,Web scraping
-36,Natural language processing
-37,Data mining
-38,Cryptocurrency development
-39,Robotic process automation
-40,Big data analytics
-41,Chatbot development
-42,System integration
-43,IT infrastructure planning
-44,Business intelligence reporting
-45,Software prototyping
-46,Firmware development
-47,Network troubleshooting
-48,API integration
-49,Cross-platform app development
-50,Data migration
-51,Web performance optimization
-52,Cloud migration
-53,Web security testing
-54,Computer vision algorithm development
-55,Predictive analytics
-56,Data warehousing
-57,IT support and maintenance
-58,Data backup and recovery
-59,System upgrade and migration
-60,Data center management
-61,Audio processing
-62,Video editing
-63,Game testing
-64,Embedded systems programming
-65,Geospatial data analysis
-66,Voice recognition technology
-67,Biometric authentication integration
-68,Neural network training
-69,Web accessibility optimization
-70,Data encryption
-71,Network monitoring
-72,UI/UX prototyping
-73,Data governance
-74,Version control system setup
-75,IT asset management
-76,Cloud security
-77,Data privacy compliance
-78,Serverless architecture design
-79,Data anomaly detection
-80,Distributed computing
-81,Data classification
-82,Data center virtualization
-83,IT disaster recovery planning
-84,Cross-browser compatibility testing
-85,Robotics programming
-86,Wearable technology app development
-87,Energy efficiency optimization
-88,Business process automation
-89,Data cleansing
-90,Natural language generation
-91,IT vendor management
-92,Cybersecurity awareness training
-93,Data streaming and processing
-94,Data extraction
-95,IT budget planning
-96,Virtual machine management
-97,Scalable cloud solutions
-98,Server load balancing
-99,Continuous integration and deployment
-100,IT risk assessment
+1,Task_1
+2,Task_2
+3,Task_3
+4,Task_4
+5,Task_5
+6,Task_6
+7,Task_7
+8,Task_8
+9,Task_9
+10,Task_10
+11,Task_11
+12,Task_12
+13,Task_13
+14,Task_14
+15,Task_15
+16,Task_16
+17,Task_17
+18,Task_18
+19,Task_19
+20,Task_20
+21,Task_21
+22,Task_22
+23,Task_23
+24,Task_24
+25,Task_25
+26,Task_26
+27,Task_27
+28,Task_28
+29,Task_29
+30,Task_30
+31,Task_31
+32,Task_32
+33,Task_33
+34,Task_34
+35,Task_35
+36,Task_36
+37,Task_37
+38,Task_38
+39,Task_39
+40,Task_40
+41,Task_41
+42,Task_42
+43,Task_43
+44,Task_44
+45,Task_45
+46,Task_46
+47,Task_47
+48,Task_48
+49,Task_49
+50,Task_50
+51,Task_51
+52,Task_52
+53,Task_53
+54,Task_54
+55,Task_55
+56,Task_56
+57,Task_57
+58,Task_58
+59,Task_59
+60,Task_60
+61,Task_61
+62,Task_62
+63,Task_63
+64,Task_64
+65,Task_65
+66,Task_66
+67,Task_67
+68,Task_68
+69,Task_69
+70,Task_70
+71,Task_71
+72,Task_72
+73,Task_73
+74,Task_74
+75,Task_75
+76,Task_76
+77,Task_77
+78,Task_78
+79,Task_79
+80,Task_80
+81,Task_81
+82,Task_82
+83,Task_83
+84,Task_84
+85,Task_85
+86,Task_86
+87,Task_87
+88,Task_88
+89,Task_89
+90,Task_90
+91,Task_91
+92,Task_92
+93,Task_93
+94,Task_94
+95,Task_95
+96,Task_96
+97,Task_97
+98,Task_98
+99,Task_99
+100,Task_100
